@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
-        boolean x = isExpanded ? false : true;
+        boolean x = isExpanded ? true : false;
 
         if (isExpanded){
             turnArrowClockwiseDown(imageView);
