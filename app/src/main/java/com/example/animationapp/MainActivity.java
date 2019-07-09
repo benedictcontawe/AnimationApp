@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
     @Override
     public void onClick(View view) {
+        boolean x = isExpanded ? false : true;
+
         if (isExpanded){
             turnArrowClockwiseDown();
         }
