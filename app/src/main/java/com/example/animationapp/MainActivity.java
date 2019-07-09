@@ -40,10 +40,10 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         boolean x = isExpanded ? false : true;
 
         if (isExpanded){
-            turnArrowClockwiseDown();
+            turnArrowClockwiseDown(imageView);
         }
         else {
-            turnArrowCounterClockwiseUp();
+            turnArrowCounterClockwiseUp(imageView);
         }
     }
 
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         imageView.startAnimation(anim);
     }
 
-    private void turnArrowClockwiseDown(){
+    private void turnArrowClockwiseDown(ImageView imageView){
         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 180f);
         imageViewObjectAnimator.setDuration(500);
         imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -122,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         isExpanded = true;
     }
 
-    private void turnArrowCounterClockwiseUp(){
+    private void turnArrowCounterClockwiseUp(ImageView imageView){
         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 0f);
         imageViewObjectAnimator.setDuration(500);
         imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
