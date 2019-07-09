@@ -1,6 +1,9 @@
 package com.example.animationapp;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private ImageView imageView;
     private AppCompatButton button;
     private float currentDegrees;
+    private boolean isExpanded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,9 +32,21 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         button.setOnClickListener(this);
 
         currentDegrees = 0;
+        isExpanded = false;
     }
 
-    private void turnArrowDown(){
+    @Override
+    public void onClick(View view) {
+        if (isExpanded){
+            turnArrowClockwiseDown();
+        }
+        else {
+            turnArrowCounterClockwiseUp();
+        }
+    }
+
+    @Deprecated
+    private void turnArrowClockwiseDown_Deprecated(){
         //RotateAnimation anim = new RotateAnimation(currentRotation, currentRotation + 30, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
         //long currentRotation; = (currentRotation + 30) % 360;
 
@@ -47,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Toast.makeText(getApplicationContext(),"onAnimationEnd turnArrowDown()",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),"onAnimationEnd turnArrowDownA()",Toast.LENGTH_SHORT).show();
                 currentDegrees = 180;
             }
 
@@ -61,7 +77,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         imageView.startAnimation(anim);
     }
 
-    private void turnArrowUp(){
+    @Deprecated
+    private void turnArrowCounterClockwiseUp_Deprecated(){
         RotateAnimation anim = new RotateAnimation(currentDegrees, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
         anim.setInterpolator(new LinearInterpolator());
         anim.setDuration(500);
@@ -75,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                Toast.makeText(getApplicationContext(),"onAnimationEnd turnArrowUp()",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),"onAnimationEnd turnArrowUpA()",Toast.LENGTH_SHORT).show();
                 currentDegrees = 0;
             }
 
@@ -89,16 +106,31 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
         imageView.startAnimation(anim);
     }
 
-    @Override
-    public void onClick(View view) {
-        if (currentDegrees == 0){
-            turnArrowDown();
-        }
-        else if(currentDegrees == 180){
-            turnArrowUp();
-        }
-        else if(currentDegrees == -180){
-            turnArrowDown();
-        }
+    private void turnArrowClockwiseDown(){
+        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 180f);
+        imageViewObjectAnimator.setDuration(500);
+        imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                Log.e(MainActivity.class.getSimpleName(),valueAnimator.getAnimatedValue().toString());
+                currentDegrees = (float) valueAnimator.getAnimatedValue();
+            }
+        });
+        imageViewObjectAnimator.start();
+        isExpanded = true;
+    }
+
+    private void turnArrowCounterClockwiseUp(){
+        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 0f);
+        imageViewObjectAnimator.setDuration(500);
+        imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                Log.e(MainActivity.class.getSimpleName(),valueAnimator.getAnimatedValue().toString());
+                currentDegrees = (float) valueAnimator.getAnimatedValue();
+            }
+        });
+        imageViewObjectAnimator.start();
+        isExpanded = false;
     }
 }
