@@ -10,6 +10,7 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private AppCompatButton button;
     private float currentDegrees;
     private boolean isExpanded;
+    //private LinearLayout preference_group_expandable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
         imageView = (ImageView) findViewById(R.id.imageView);
         button = (AppCompatButton) findViewById(R.id.button);
+        //preference_group_expandable = (LinearLayout) findViewById(R.id.preference_group_expandable);
+
         button.setOnClickListener(this);
 
         currentDegrees = 0;

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="expert_text_size">12sp</dimen>
+    <dimen name="expert_preference_normal_mode_layout_margin_start">28dp</dimen>
+    <dimen name="expert_collapsed_preference_width">324dp</dimen>
+    <dimen name="expert_group_collapse_indicator_size">24dp</dimen>
+    <dimen name="expert_group_margin_vertical">7dp</dimen>
+    <dimen name="expert_group_collapse_indicator_margin_end">4dp</dimen>
+    <dimen name="expert_group_margin_start">12dp</dimen>
+    <dimen name="expert_preference_layout_margin_horizontal">24dp</dimen>
+</resources>

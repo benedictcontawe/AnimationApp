@@ -8,4 +8,14 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="ExpertTextStyle">
+        <item name="android:textSize">@dimen/expert_text_size</item>
+    </style>
+
+    <style name="ExpertTitleTextStyle" parent="ExpertTextStyle">
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
 </resources>

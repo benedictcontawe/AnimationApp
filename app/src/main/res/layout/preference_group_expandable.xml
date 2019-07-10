@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:descendantFocusability="beforeDescendants">
+
+    <!-- TODO layout parameters are TBD -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/normalContainer"
+        android:layout_width="@dimen/expert_collapsed_preference_width"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/expert_preference_normal_mode_layout_margin_start"
+        android:layout_marginLeft="@dimen/expert_preference_normal_mode_layout_margin_start"
+        android:background="@color/expert_preference_background_unfocused"
+        android:focusable="true"
+        android:descendantFocusability="blocksDescendants"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <!-- TODO layout parameters are TBD -->
+        <ImageView
+            android:id="@+id/focusBackgroundNormal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:focusable="false"
+            android:src="@color/item_focused_background"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/collapse_indicator"
+            android:layout_width="@dimen/expert_group_collapse_indicator_size"
+            android:layout_height="@dimen/expert_group_collapse_indicator_size"
+            android:layout_marginTop="@dimen/expert_group_margin_vertical"
+            android:layout_marginStart="@dimen/expert_group_margin_start"
+            android:layout_marginLeft="@dimen/expert_group_margin_start"
+            android:layout_marginEnd="@dimen/expert_group_collapse_indicator_margin_end"
+            android:layout_marginRight="@dimen/expert_group_collapse_indicator_margin_end"
+            android:layout_marginBottom="@dimen/expert_group_margin_vertical"
+            android:focusable="false"
+            android:src="@drawable/ic_chevron_down_silver"
+            android:scaleType="centerInside"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/expert_preference_layout_margin_horizontal"
+            android:layout_marginRight="@dimen/expert_preference_layout_margin_horizontal"
+            android:focusable="false"
+            android:gravity="center"
+            android:text="Title"
+            android:textColor="#FFF"
+            style="@style/ExpertTitleTextStyle"
+            app:layout_constraintBottom_toBottomOf="@id/collapse_indicator"
+            app:layout_constraintStart_toEndOf="@id/collapse_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/collapse_indicator" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
