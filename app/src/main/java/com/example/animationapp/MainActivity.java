@@ -15,13 +15,37 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ConstraintLayout normalContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        normalContainer = (ConstraintLayout) findViewById(R.id.normalContainer);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+
+        normalContainer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                normalContainer.setPressed(true);
+            }
+        },1000);
+        normalContainer.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                normalContainer.setPressed(false);
+                Toast.makeText(getApplication(),"pressed",Toast.LENGTH_SHORT).show();
+            }
+        },1000);
     }
 }

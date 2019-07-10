@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ripple
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:color="@color/colorAccent"
-    tools:targetApi="lollipop">
-    <item>
-        <shape
-            android:shape="rectangle">
-            <solid android:color="@color/expert_preference_background_unfocused"/>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="1dp" />
+            <solid android:color="@color/expert_preference_background_ripple" />
         </shape>
     </item>
-
-</ripple>
+    <item android:state_focused="true">
+        <shape android:shape="rectangle">
+            <corners android:radius="1dp" />
+            <solid android:color="@color/expert_preference_background_ripple" />
+        </shape>
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="1dp" />
+            <solid android:color="@color/expert_preference_background_focused" />
+        </shape>
+    </item>
+</selector>
