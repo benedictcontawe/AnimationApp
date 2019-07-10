@@ -6,23 +6,74 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_40"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_chevron_up_black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="@integer/dashboard_banner_height_percentage" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+    <ImageView
+        android:id="@+id/iv_header"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="turn"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        android:background="@color/blue"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/gl_40"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rl_AccountDetails"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/margin_start_end_half"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/gl_40"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include
+            android:id="@+id/include"
+            layout="@layout/header_account_details"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:gravity="top|center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/iv_backMyAccountDetails_icon"
+            android:layout_width="@dimen/button_back_width"
+            android:layout_height="@dimen/button_back_height"
+            android:layout_marginStart="@dimen/margin_start_end"
+            android:layout_marginLeft="@dimen/margin_start_end"
+            app:srcCompat="@drawable/ic_back_white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <ImageView
+            android:id="@+id/iv_settings"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/margin_start_end"
+            android:layout_marginRight="@dimen/margin_start_end"
+            app:layout_constraintBottom_toBottomOf="@id/iv_backMyAccountDetails_icon"
+            app:srcCompat="@drawable/ic_settings_white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

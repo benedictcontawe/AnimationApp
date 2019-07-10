@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="dashboard_banner_height_percentage" format="float" type="integer">0.4225</item>
+
+    <dimen name="margin_start_end">17dp</dimen>
+    <dimen name="margin_start_end_2dp">2dp</dimen>
+    <dimen name="margin_start_end_half">8.5dp</dimen>
+
+    <dimen name="button_back_height">18dp</dimen>
+    <dimen name="button_back_width">18dp</dimen>
+
+    <dimen name="available_balance_label">6.5dp</dimen>
+    <dimen name="balance_small">12dp</dimen>
+</resources>
