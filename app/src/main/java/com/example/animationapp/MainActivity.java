@@ -1,5 +1,7 @@
 package com.example.animationapp;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Bundle;
@@ -112,6 +114,19 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void turnArrowClockwiseDown(ImageView imageView){
         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 180f);
         imageViewObjectAnimator.setDuration(500);
+        imageViewObjectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                Log.e(MainActivity.class.getSimpleName(),"turnArrowClockwiseDown() onAnimationStart()");
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                Log.e(MainActivity.class.getSimpleName(),"turnArrowClockwiseDown() onAnimationEnd()");
+            }
+        });
         imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
@@ -126,10 +141,23 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     private void turnArrowCounterClockwiseUp(ImageView imageView){
         ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 0f);
         imageViewObjectAnimator.setDuration(500);
+        imageViewObjectAnimator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                Log.e(MainActivity.class.getSimpleName(),"turnArrowCounterClockwiseUp() onAnimationStart()");
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                Log.e(MainActivity.class.getSimpleName(),"turnArrowCounterClockwiseUp() onAnimationEnd()");
+            }
+        });
         imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Log.e(MainActivity.class.getSimpleName(),valueAnimator.getAnimatedValue().toString());
+                Log.e(MainActivity.class.getSimpleName(),"turnArrowCounterClockwiseUp() " + valueAnimator.getAnimatedValue().toString());
                 currentDegrees = (float) valueAnimator.getAnimatedValue();
             }
         });
