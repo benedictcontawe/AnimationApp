@@ -4,8 +4,7 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!--<color name="item_focused_background">#0fffffff</color>-->
     <color name="expert_preference_background_focused">#1d1d1d</color>
     <color name="expert_preference_background_unfocused">#000000</color>
-    <color name="expert_preference_background_ripple">#2f2f2f</color><!--<color name="expert_preference_background_ripple">#2f2f2f</color>-->
+    <color name="expert_preference_background_ripple">#2f2f2f</color>
 </resources>
