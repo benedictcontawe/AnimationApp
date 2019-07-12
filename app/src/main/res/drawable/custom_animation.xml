@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android">
-
-</animated-rotate>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selected" android:oneshot="true">
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_0th" android:duration="167" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_1st" android:duration="167" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_2nd" android:duration="167" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_3rd" android:duration="167" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_4th" android:duration="167" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_5th" android:duration="167" />
+</animation-list>
