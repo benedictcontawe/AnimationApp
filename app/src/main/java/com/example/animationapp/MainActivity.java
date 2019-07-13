@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void animateLeft() {
-        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(layout, View.TRANSLATION_X, getSliderPrecentage(false, this, 70f));
+        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(layout, View.TRANSLATION_X, getSliderPrecentage(false, this, 0.3f));
         objectAnimator.setDuration(250);
         objectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
     }
 
     private void animateRight() {
-        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(layout, View.TRANSLATION_X, getSliderPrecentage(true, this, 70f));
+        ObjectAnimator objectAnimator = new ObjectAnimator().ofFloat(layout, View.TRANSLATION_X, getSliderPrecentage(true, this, 0.3f));
         objectAnimator.setDuration(250);
         objectAnimator.addListener(new AnimatorListenerAdapter() {
             @Override
