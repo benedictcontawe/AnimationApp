@@ -7,11 +7,11 @@
     tools:context=".MainActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/gl_40"
+        android:id="@+id/gl_percentage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="@integer/dashboard_banner_height_percentage" />
+        app:layout_constraintGuide_percent="@integer/layout_height_percentage" />
 
     <ImageView
         android:id="@+id/iv_header"
@@ -19,40 +19,25 @@
         android:layout_height="0dp"
         android:background="@color/blue"
         android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="@id/gl_40"
+        app:layout_constraintBottom_toBottomOf="@id/gl_percentage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/rl_AccountDetails"
+        android:id="@+id/layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="@dimen/margin_start_end_half"
         android:layout_marginTop="35dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/gl_40"
+        app:layout_constraintBottom_toTopOf="@id/gl_percentage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <include
-            android:id="@+id/include"
-            layout="@layout/header_account_details"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginStart="@dimen/margin_start_end"
-            android:layout_marginEnd="@dimen/margin_start_end"
-            android:gravity="top|center"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
-
         <ImageView
-            android:id="@+id/iv_backMyAccountDetails_icon"
+            android:id="@+id/iv_back"
             android:layout_width="@dimen/button_back_width"
             android:layout_height="@dimen/button_back_height"
             android:layout_marginStart="@dimen/margin_start_end"
@@ -68,12 +53,31 @@
             android:layout_height="0dp"
             android:layout_marginEnd="@dimen/margin_start_end"
             android:layout_marginRight="@dimen/margin_start_end"
-            app:layout_constraintBottom_toBottomOf="@id/iv_backMyAccountDetails_icon"
             app:srcCompat="@drawable/ic_settings_white"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/iv_back"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello"
+            android:textColor="#FFF"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+    android:id="@+id/button"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:text="Move"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

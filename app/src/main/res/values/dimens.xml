@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="dashboard_banner_height_percentage" format="float" type="integer">0.4225</item>
+    <item name="layout_height_percentage" format="float" type="integer">0.4225</item>
 
     <dimen name="margin_start_end">17dp</dimen>
     <dimen name="margin_start_end_2dp">2dp</dimen>
