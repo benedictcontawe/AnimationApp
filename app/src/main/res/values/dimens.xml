@@ -8,7 +8,4 @@
 
     <dimen name="button_back_height">18dp</dimen>
     <dimen name="button_back_width">18dp</dimen>
-
-    <dimen name="available_balance_label">6.5dp</dimen>
-    <dimen name="balance_small">12dp</dimen>
 </resources>
