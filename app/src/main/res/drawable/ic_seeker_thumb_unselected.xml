@@ -7,19 +7,17 @@ android:width="20dp"
 android:height="20dp">
 
 <path
-    android:fillColor="#4D339DFF"
     android:pathData="M 350 250 A 100 100 0 0 0 150 250 Z"/>
 
 <path
-    android:fillColor="#4D339DFF"
     android:pathData="M 150 250 A 100 100 0 0 0 350 250 Z"/>
 
 <path
-    android:fillColor="#339DFF"
+    android:fillColor="#FFF"
     android:pathData="M 350 250 A 100 100 0 0 0 150 250 Z"/>
 
 <path
-    android:fillColor="#339DFF"
+    android:fillColor="#FFF"
     android:pathData="M 150 250 A 100 100 0 0 0 350 250 Z"/>
 
 </vector>

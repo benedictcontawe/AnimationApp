@@ -19,7 +19,7 @@
         android:id="@+id/seekBar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:thumb="@drawable/ic_seeker_thumb_selected_5th"
+        android:thumb="@drawable/ic_seeker_thumb_unselected"
         android:progressTint="#000"
         android:progressBackgroundTint="@android:color/darker_gray"
         android:max="10"
