@@ -12,4 +12,10 @@
     <item android:drawable="@drawable/ic_seeker_thumb_selected_3rd" android:duration="40" />
     <item android:drawable="@drawable/ic_seeker_thumb_selected_4th" android:duration="40" />
     <item android:drawable="@drawable/ic_seeker_thumb_selected_5th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_6th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_7th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_7th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_7th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_6th" android:duration="40" />
+    <item android:drawable="@drawable/ic_seeker_thumb_selected_5th" android:duration="40" />
 </animation-list>

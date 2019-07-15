@@ -8,11 +8,11 @@
 
     <path
         android:fillColor="#4D339DFF"
-        android:pathData="M 690 375 A 100 100 0 0 0 60 375 Z"/>
+        android:pathData="M 723 375 A 100 100 0 0 0 27 375 Z"/>
 
     <path
         android:fillColor="#4D339DFF"
-        android:pathData="M 60 375 A 100 100 0 0 0 690 375 Z"/>
+        android:pathData="M 27 375 A 100 100 0 0 0 723 375 Z"/>
 
     <path
         android:fillColor="#339DFF"
