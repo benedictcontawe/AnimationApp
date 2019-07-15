@@ -7,11 +7,11 @@ android:width="20dp"
 android:height="20dp">
 
 <path
-    android:fillColor="#66339DFF"
+    android:fillColor="#4D339DFF"
     android:pathData="M 440 250 A 100 100 0 0 0 60 250 Z"/>
 
 <path
-    android:fillColor="#66339DFF"
+    android:fillColor="#4D339DFF"
     android:pathData="M 60 250 A 100 100 0 0 0 440 250 Z"/>
 
 <path
