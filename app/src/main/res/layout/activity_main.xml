@@ -24,12 +24,11 @@
         android:progressBackgroundTint="@android:color/darker_gray"
         android:progressTint="#000"
         android:splitTrack="false"
-        android:tag="@drawable/ic_seeker_thumb_unselected"
         android:thumb="@drawable/ic_seeker_thumb_unselected"
         android:thumbOffset="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/button"
