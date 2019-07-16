@@ -1,8 +1,6 @@
 package com.example.animationapp;
 
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -48,61 +46,73 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 switch (selectedThumb){
                     case 1:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_1st));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_1st);
                         selectedThumb = 2;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_1st");
                         break;
                     case 2:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_2nd));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_2nd);
                         selectedThumb = 3;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_2nd");
                         break;
                     case 3:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_3rd));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_3rd);
                         selectedThumb = 4;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_3rd");
                         break;
                     case 4:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_4th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_4th);
                         selectedThumb = 5;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_4th");
                         break;
                     case 5:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_5th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_5th);
                         selectedThumb = 6;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_5th");
                         break;
                     case 6:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_6th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_6th);
                         selectedThumb = 7;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_6th");
                         break;
                     case 7:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_7th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_7th);
                         selectedThumb = 8;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_7th");
                         break;
                     case 8:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_7th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_7th);
                         selectedThumb = 9;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_7th");
                         break;
                     case 9:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_7th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_7th);
                         selectedThumb = 10;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_7th");
                         break;
                     case 10:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_6th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_6th);
                         selectedThumb = 11;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_6th");
                         break;
                     case 11:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_5th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_5th);
                         selectedThumb = 11;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_5th");
                         break;
                     default:
                         seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_0th));
+                        seekBar.setTag(R.drawable.ic_seeker_thumb_selected_0th);
                         selectedThumb++;
                         Log.e(MainActivity.class.getSimpleName(),"ic_seeker_thumb_selected_0th");
                         break;
@@ -110,8 +120,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             public  void onFinish(){
                 seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_5th));
+                seekBar.setTag(R.drawable.ic_seeker_thumb_selected_5th);
                 selectedThumb = -7;
                 Log.e(MainActivity.class.getSimpleName(),"onFinish()");
+                if (seekBar.getTag().equals(R.drawable.ic_seeker_thumb_selected_5th)){
+                    Log.e(MainActivity.class.getSimpleName(),"seeker thumb equal");
+                }
+                else{
+                    Log.e(MainActivity.class.getSimpleName(),"seeker thumb not equal");
+                }
             }
         }.start();
     }
