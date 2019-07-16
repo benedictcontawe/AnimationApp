@@ -1,6 +1,7 @@
 package com.example.animationapp;
 
 import android.graphics.drawable.AnimationDrawable;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,12 +27,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         imageView = (ImageView) findViewById(R.id.imageView);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
-        imageView.setBackgroundResource(R.drawable.custom_animation);
+        button =(Button) findViewById(R.id.button);
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.e("MainActivity ","Seek Bar Tag" + seekBar.getTag().toString());
+
+        imageView.setBackgroundResource(R.drawable.custom_animation);
         animationDrawable = (AnimationDrawable) imageView.getBackground();
 
-        button =(Button) findViewById(R.id.button);
         button.setOnClickListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        button.setOnClickListener(null);
     }
 
     @Override
@@ -119,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
             public  void onFinish(){
+                //seekBar.setThumb(ContextCompat.getDrawable(this,R.drawable.ic_seeker_thumb_selected_5th))
                 seekBar.setThumb(getResources().getDrawable(R.drawable.ic_seeker_thumb_selected_5th));
                 seekBar.setTag(R.drawable.ic_seeker_thumb_selected_5th);
                 selectedThumb = -7;

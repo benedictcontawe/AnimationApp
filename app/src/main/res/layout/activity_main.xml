@@ -24,6 +24,7 @@
         android:progressBackgroundTint="@android:color/darker_gray"
         android:progressTint="#000"
         android:splitTrack="false"
+        android:tag="@drawable/ic_seeker_thumb_unselected"
         android:thumb="@drawable/ic_seeker_thumb_unselected"
         android:thumbOffset="0dp"
         app:layout_constraintEnd_toEndOf="parent"
