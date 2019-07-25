@@ -30,9 +30,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imageView = (ImageView) findViewById(R.id.imageView);
         seekBar = (SeekBar) findViewById(R.id.seekBar);
         button =(Button) findViewById(R.id.button);
+
+        //seekBar.setPadding(0,0,0,0);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onStart() {
         super.onStart();
