@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:viewportWidth="500.0"
+    android:viewportHeight="500.0"
+    android:width="5dp"
+    android:height="10dp">
+
+    <path android:fillColor="@color/expert_focus_indicator_color" android:pathData="M 0,250 L500,0 L500,500 Z"/>
+
+</vector>
