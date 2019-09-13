@@ -1,139 +1,66 @@
 package com.example.animationapp;
 
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
+import android.graphics.Point;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Display;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageView;
-import android.widget.Toast;
+import android.view.View.OnTouchListener;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.Guideline;
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
+public class MainActivity extends AppCompatActivity implements OnTouchListener {
 
-    private ImageView imageView;
-    private AppCompatButton button;
-    private float currentDegrees;
-    private boolean isExpanded;
+    private Display display;
+    private float dX, dY;
+    private Point size;
+    private View view;
+    private Guideline constraint_guideline_marginTop, constraint_guideline_marginStart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        imageView = (ImageView) findViewById(R.id.imageView);
-        button = (AppCompatButton) findViewById(R.id.button);
-        button.setOnClickListener(this);
+        view = (View) findViewById(R.id.view);
+        constraint_guideline_marginTop = (Guideline) findViewById(R.id.constraint_guideline_marginTop);
+        constraint_guideline_marginStart = (Guideline) findViewById(R.id.constraint_guideline_marginStart);
+        view.setOnTouchListener(this);
 
-        currentDegrees = 0;
-        isExpanded = false;
+        size = new Point();
+        display = getWindowManager().getDefaultDisplay();
+        display.getSize(size);
     }
 
     @Override
-    public void onClick(View view) {
-        //boolean x = isExpanded ? true : false;
-
-        if (isExpanded){
-            turnArrowCounterClockwiseUp(imageView);
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        if (view.getId() == view.getId()) {
+            switch (motionEvent.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    dX = view.getX() - motionEvent.getRawX();
+                    dY = view.getY() - motionEvent.getRawY();
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    view.animate()
+                            .x(motionEvent.getRawX() + dX)
+                            .y(motionEvent.getRawY() + dY)
+                            .setDuration(0)
+                            .start();
+                    break;
+                case MotionEvent.ACTION_UP:
+                    view.animate()
+                            .x(constraint_guideline_marginStart.getLeft())
+                            .y(constraint_guideline_marginTop.getTop())
+                            .setDuration(250)
+                            .start();
+                default:
+                    return false;
+            }
+            return true;
         }
         else {
-            turnArrowClockwiseDown(imageView);
-
+            return false;
         }
-    }
-
-    @Deprecated
-    private void turnArrowClockwiseDown_Deprecated(){
-        //RotateAnimation anim = new RotateAnimation(currentRotation, currentRotation + 30, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
-        //long currentRotation; = (currentRotation + 30) % 360;
-
-        RotateAnimation anim = new RotateAnimation(currentDegrees, 180, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
-        anim.setInterpolator(new LinearInterpolator());
-        anim.setDuration(500);
-        anim.setFillEnabled(true);
-        anim.setFillAfter(true);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Toast.makeText(getApplication(),"onAnimationEnd turnArrowDownA()",Toast.LENGTH_SHORT).show();
-                currentDegrees = 180;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
-        imageView.startAnimation(anim);
-    }
-
-    @Deprecated
-    private void turnArrowCounterClockwiseUp_Deprecated(){
-        RotateAnimation anim = new RotateAnimation(currentDegrees, 0, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,0.5f);
-        anim.setInterpolator(new LinearInterpolator());
-        anim.setDuration(500);
-        anim.setFillEnabled(true);
-        anim.setFillAfter(true);
-        anim.setAnimationListener(new Animation.AnimationListener() {
-            @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                Toast.makeText(getApplication(),"onAnimationEnd turnArrowUpA()",Toast.LENGTH_SHORT).show();
-                currentDegrees = 0;
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-        });
-
-
-        imageView.startAnimation(anim);
-    }
-
-    private void turnArrowClockwiseDown(ImageView imageView){
-        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 180f);
-        imageViewObjectAnimator.setDuration(500);
-        imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Log.e(MainActivity.class.getSimpleName(),valueAnimator.getAnimatedValue().toString());
-                currentDegrees = (float) valueAnimator.getAnimatedValue();
-            }
-        });
-        imageViewObjectAnimator.start();
-        isExpanded = true;
-    }
-
-    private void turnArrowCounterClockwiseUp(ImageView imageView){
-        ObjectAnimator imageViewObjectAnimator = ObjectAnimator.ofFloat(imageView , View.ROTATION, currentDegrees, 0f);
-        imageViewObjectAnimator.setDuration(500);
-        imageViewObjectAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                Log.e(MainActivity.class.getSimpleName(),valueAnimator.getAnimatedValue().toString());
-                currentDegrees = (float) valueAnimator.getAnimatedValue();
-            }
-        });
-        imageViewObjectAnimator.start();
-        isExpanded = false;
     }
 }

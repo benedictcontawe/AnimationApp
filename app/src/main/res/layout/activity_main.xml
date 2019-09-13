@@ -6,23 +6,56 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <!--region Guide lines-->
+    <!--region Vertical Guide lines-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_marginStart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_chevron_up_black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.40"/>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
-        android:layout_width="0dp"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_marginEnd"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="turn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.60"/>
+    <!--endregion-->
+    <!--region Horizontal Guidlines-->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_marginTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.40"/>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/constraint_guideline_marginBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.60"/>
+    <!--endregion-->
+    <!--endregion-->
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#333"
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_marginStart"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_marginEnd"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_marginBottom"/>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#000"
+        app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
+        app:layout_constraintStart_toStartOf="@id/constraint_guideline_marginStart"
+        app:layout_constraintEnd_toEndOf="@id/constraint_guideline_marginEnd"
+        app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_marginBottom"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
