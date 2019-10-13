@@ -41,8 +41,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        animationDrawable.stop();
         //animationDrawable.selectDrawable(0);
-        animationDrawable.start();
+        if (animationDrawable.isRunning()) {
+            animationDrawable.stop();
+            animationDrawable.start();
+        } else {
+            animationDrawable.start();
+        }
     }
 }
