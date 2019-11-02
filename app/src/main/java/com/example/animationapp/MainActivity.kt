@@ -18,15 +18,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onStart() {
         super.onStart()
 
-        imageView!!.setBackgroundResource(R.drawable.custom_animation)
+        imageView.setBackgroundResource(R.drawable.custom_animation)
         animationDrawable = imageView!!.background as AnimationDrawable
 
-        button!!.setOnClickListener(this)
+        button.setOnClickListener(this)
     }
 
     override fun onStop() {
         super.onStop()
-        button!!.setOnClickListener(null)
+        button.setOnClickListener(null)
     }
 
     override fun onClick(view: View) {
