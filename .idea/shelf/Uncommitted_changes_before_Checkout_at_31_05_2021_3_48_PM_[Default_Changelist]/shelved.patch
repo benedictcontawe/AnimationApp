@@ -1,0 +1,162 @@
+Index: app/src/main/java/com/example/animationapp/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.animationapp;\r\n\r\nimport android.graphics.Point;\r\nimport android.os.Bundle;\r\nimport android.view.Display;\r\nimport android.view.MotionEvent;\r\nimport android.view.View;\r\nimport android.view.View.OnTouchListener;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport androidx.constraintlayout.widget.Guideline;\r\n\r\npublic class MainActivity extends AppCompatActivity implements OnTouchListener {\r\n\r\n    private Display display;\r\n    private float dX, dY;\r\n    private Point size;\r\n    private View view;\r\n    private Guideline constraint_guideline_marginTop, constraint_guideline_marginStart;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_main);\r\n\r\n        view = (View) findViewById(R.id.view);\r\n        constraint_guideline_marginTop = (Guideline) findViewById(R.id.constraint_guideline_marginTop);\r\n        constraint_guideline_marginStart = (Guideline) findViewById(R.id.constraint_guideline_marginStart);\r\n        view.setOnTouchListener(this);\r\n\r\n        size = new Point();\r\n        display = getWindowManager().getDefaultDisplay();\r\n        display.getSize(size);\r\n    }\r\n\r\n    @Override\r\n    public boolean onTouch(View view, MotionEvent motionEvent) {\r\n        if (view.getId() == view.getId()) {\r\n            switch (motionEvent.getAction()) {\r\n                case MotionEvent.ACTION_DOWN:\r\n                    dX = view.getX() - motionEvent.getRawX();\r\n                    dY = view.getY() - motionEvent.getRawY();\r\n                    break;\r\n                case MotionEvent.ACTION_MOVE:\r\n                    view.animate()\r\n                            .x(motionEvent.getRawX() + dX)\r\n                            .y(motionEvent.getRawY() + dY)\r\n                            .setDuration(0)\r\n                            .start();\r\n                    break;\r\n                case MotionEvent.ACTION_UP:\r\n                    view.animate()\r\n                            .x(constraint_guideline_marginStart.getLeft())\r\n                            .y(constraint_guideline_marginTop.getTop())\r\n                            .setDuration(250)\r\n                            .start();\r\n                default:\r\n                    return false;\r\n            }\r\n            return true;\r\n        }\r\n        else {\r\n            return false;\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/animationapp/MainActivity.java	(revision 8579cbb3ca9c455fd6ef77f69a9164b487c11a76)
++++ app/src/main/java/com/example/animationapp/MainActivity.java	(date 1606042703337)
+@@ -15,7 +15,7 @@
+     private Display display;
+     private float dX, dY;
+     private Point size;
+-    private View view;
++    private View viewBox,viewCircle;
+     private Guideline constraint_guideline_marginTop, constraint_guideline_marginStart;
+ 
+     @Override
+@@ -23,10 +23,11 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
+ 
+-        view = (View) findViewById(R.id.view);
++        viewBox = (View) findViewById(R.id.view_box);
++        viewCircle = (View) findViewById(R.id.view_circle);
+         constraint_guideline_marginTop = (Guideline) findViewById(R.id.constraint_guideline_marginTop);
+         constraint_guideline_marginStart = (Guideline) findViewById(R.id.constraint_guideline_marginStart);
+-        view.setOnTouchListener(this);
++        viewBox.setOnTouchListener(this);
+ 
+         size = new Point();
+         display = getWindowManager().getDefaultDisplay();
+@@ -35,7 +36,7 @@
+ 
+     @Override
+     public boolean onTouch(View view, MotionEvent motionEvent) {
+-        if (view.getId() == view.getId()) {
++        if (view.getId() == viewBox.getId()) {
+             switch (motionEvent.getAction()) {
+                 case MotionEvent.ACTION_DOWN:
+                     dX = view.getX() - motionEvent.getRawX();
+@@ -45,6 +46,11 @@
+                     view.animate()
+                             .x(motionEvent.getRawX() + dX)
+                             .y(motionEvent.getRawY() + dY)
++                            .setDuration(0)
++                            .start();
++                    viewCircle.animate()
++                            .x(viewCircle.getX() - motionEvent.getRawX())
++                            .y(viewCircle.getY() - motionEvent.getRawY())
+                             .setDuration(0)
+                             .start();
+                     break;
+@@ -63,4 +69,6 @@
+             return false;
+         }
+     }
++
++
+ }
+Index: app/src/main/res/layout/activity_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".MainActivity\">\r\n\r\n    <!--region Guide lines-->\r\n    <!--region Vertical Guide lines-->\r\n    <androidx.constraintlayout.widget.Guideline\r\n        android:id=\"@+id/constraint_guideline_marginStart\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintGuide_percent=\"0.40\"/>\r\n\r\n    <androidx.constraintlayout.widget.Guideline\r\n        android:id=\"@+id/constraint_guideline_marginEnd\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        app:layout_constraintGuide_percent=\"0.60\"/>\r\n    <!--endregion-->\r\n    <!--region Horizontal Guidlines-->\r\n    <androidx.constraintlayout.widget.Guideline\r\n        android:id=\"@+id/constraint_guideline_marginTop\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintGuide_percent=\"0.40\"/>\r\n\r\n    <androidx.constraintlayout.widget.Guideline\r\n        android:id=\"@+id/constraint_guideline_marginBottom\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        app:layout_constraintGuide_percent=\"0.60\"/>\r\n    <!--endregion-->\r\n    <!--endregion-->\r\n\r\n    <View\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"#333\"\r\n        app:layout_constraintTop_toTopOf=\"@id/constraint_guideline_marginTop\"\r\n        app:layout_constraintStart_toStartOf=\"@id/constraint_guideline_marginStart\"\r\n        app:layout_constraintEnd_toEndOf=\"@id/constraint_guideline_marginEnd\"\r\n        app:layout_constraintBottom_toBottomOf=\"@id/constraint_guideline_marginBottom\"/>\r\n\r\n    <View\r\n        android:id=\"@+id/view\"\r\n        android:layout_width=\"0dp\"\r\n        android:layout_height=\"0dp\"\r\n        android:background=\"#000\"\r\n        app:layout_constraintTop_toTopOf=\"@id/constraint_guideline_marginTop\"\r\n        app:layout_constraintStart_toStartOf=\"@id/constraint_guideline_marginStart\"\r\n        app:layout_constraintEnd_toEndOf=\"@id/constraint_guideline_marginEnd\"\r\n        app:layout_constraintBottom_toBottomOf=\"@id/constraint_guideline_marginBottom\"/>\r\n\r\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_main.xml	(revision 8579cbb3ca9c455fd6ef77f69a9164b487c11a76)
++++ app/src/main/res/layout/activity_main.xml	(date 1606039605975)
+@@ -5,54 +5,82 @@
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     tools:context=".MainActivity">
+-
+     <!--region Guide lines-->
+     <!--region Vertical Guide lines-->
++    <androidx.constraintlayout.widget.Guideline
++        android:id="@+id/constraint_guideline_vertical_leading"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++        app:layout_constraintGuide_percent="0.05"/>
++
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/constraint_guideline_marginStart"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+-        app:layout_constraintGuide_percent="0.40"/>
++        app:layout_constraintGuide_percent="0.35"/>
+ 
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/constraint_guideline_marginEnd"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+-        app:layout_constraintGuide_percent="0.60"/>
++        app:layout_constraintGuide_percent="0.65"/>
++
++    <androidx.constraintlayout.widget.Guideline
++        android:id="@+id/constraint_guideline_vertical_trailing"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:orientation="vertical"
++        app:layout_constraintGuide_percent="0.95"/>
+     <!--endregion-->
+     <!--region Horizontal Guidlines-->
++    <androidx.constraintlayout.widget.Guideline
++        android:id="@+id/constraint_guideline_horizontal_top"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        app:layout_constraintGuide_percent="0.05" />
++
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/constraint_guideline_marginTop"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+-        app:layout_constraintGuide_percent="0.40"/>
++        app:layout_constraintGuide_percent="0.35"/>
+ 
+     <androidx.constraintlayout.widget.Guideline
+         android:id="@+id/constraint_guideline_marginBottom"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+-        app:layout_constraintGuide_percent="0.60"/>
++        app:layout_constraintGuide_percent="0.65"/>
++
++    <androidx.constraintlayout.widget.Guideline
++        android:id="@+id/constraint_guideline_horizontal_bottom"
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:orientation="horizontal"
++        app:layout_constraintGuide_percent="0.95" />
+     <!--endregion-->
+     <!--endregion-->
+ 
+     <View
++        android:id="@+id/view_box"
+         android:layout_width="0dp"
+         android:layout_height="0dp"
+-        android:background="#333"
++        android:background="@color/black"
+         app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
+         app:layout_constraintStart_toStartOf="@id/constraint_guideline_marginStart"
+         app:layout_constraintEnd_toEndOf="@id/constraint_guideline_marginEnd"
+         app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_marginBottom"/>
+ 
+     <View
+-        android:id="@+id/view"
+-        android:layout_width="0dp"
+-        android:layout_height="0dp"
+-        android:background="#000"
++        android:id="@+id/view_circle"
++        android:layout_width="5dp"
++        android:layout_height="5dp"
++        android:background="@color/red"
+         app:layout_constraintTop_toTopOf="@id/constraint_guideline_marginTop"
+         app:layout_constraintStart_toStartOf="@id/constraint_guideline_marginStart"
+         app:layout_constraintEnd_toEndOf="@id/constraint_guideline_marginEnd"

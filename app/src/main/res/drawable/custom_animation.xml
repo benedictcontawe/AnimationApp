@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android">
-
-</animated-rotate>
+<animated-rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ic_loading_small"
+    android:width="25dp"
+    android:height="25dp"
+    android:pivotX="50%"
+    android:pivotY="50%"></animated-rotate>
