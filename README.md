@@ -12,7 +12,3 @@ X | Y | Postiion
 100 | 0 | Top Right
 0 | 100 | Bottom Left
 100 | 100 | Bottom Right
-
-| Default Header | Left Align | Right Align | Center Align | Other
-| --- | :-- | --: | :-: | --
-| Sample | Sample | Sample | Sample | Sample
