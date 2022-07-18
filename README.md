@@ -7,8 +7,11 @@
 ## Vector Coordinates
 
 X | Y | Postiion
-:-: | -- | --:
+:-: | :-: | --:
 0 | 0 | Top Left
 100 | 0 | Top Right
 0 | 100 | Bottom Left
 100 | 100 | Bottom Right
+
+| Default Header | Left Align | Right Align | Center Align | Other
+| --- | :-- | --: | :-: | --
