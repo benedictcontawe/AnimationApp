@@ -8,3 +8,7 @@
 100,0 Top Right
 0,100 Bottom Left
 100,100 Bottom Right
+
+Issue | Probable Cause | Action Taken
+-- | -- | --
+xxx | xxx | xxx
