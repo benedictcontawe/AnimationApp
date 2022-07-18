@@ -4,11 +4,9 @@
 
 ## Vector Coordinates
 
-0,0 Top Left
-100,0 Top Right
-0,100 Bottom Left
-100,100 Bottom Right
-
-Issue | Probable Cause | Action Taken
+X | Y | Postiion
 -- | -- | --
-xxx | xxx | xxx
+0 | 0 | Top Left
+100 | 0 | Top Right
+0 | 100 | Bottom Left
+100 | 100 | Bottom Right
