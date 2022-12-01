@@ -3,7 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Benedict/Android Studio Projects/AnimationApp/app/src/main/res/layout/activity_main.xml" value="0.20833333333333334" />
+        <entry key="..\:/Benedict/Android Studio Projects/AnimationApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.12" />
+        <entry key="..\:/Benedict/Android Studio Projects/AnimationApp/app/src/main/res/drawable/inset_splash.xml" value="0.1" />
+        <entry key="..\:/Benedict/Android Studio Projects/AnimationApp/app/src/main/res/layout/activity_main.xml" value="0.264" />
         <entry key="..\:/Benedict/Android Studio Projects/AnimationApp2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
         <entry key="..\:/Benedict/Android Studio Projects/AnimationApp2/app/src/main/res/drawable/inset_splash.xml" value="0.1" />
         <entry key="..\:/Benedict/Android Studio Projects/AnimationApp2/app/src/main/res/layout/activity_main.xml" value="0.1" />
