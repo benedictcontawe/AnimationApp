@@ -1,4 +1,5 @@
-<inset xmlns:android="http://schemas.android.com/apk/res/android"
+<inset
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/ic_launcher_foreground"
     android:insetLeft="50dp"
     android:insetRight="50dp"

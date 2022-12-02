@@ -9,5 +9,6 @@ class MainActivity : AppCompatActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //getWindow().setBackgroundDrawableResource(R.drawable.bitmap_splash)
     }
 }
