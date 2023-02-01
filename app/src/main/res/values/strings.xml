@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">AnimationApp</string>
-    <string name="splash_screen">Splash Screen!</string>
+    <string name="android">Android</string>
 </resources>
