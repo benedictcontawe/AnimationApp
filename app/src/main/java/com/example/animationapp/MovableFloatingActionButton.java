@@ -41,49 +41,47 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent){
+    public boolean onTouch(View view, MotionEvent motionEvent) {
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
-        int action = motionEvent.getAction();
-        if (action == MotionEvent.ACTION_DOWN) {
-            downRawX = motionEvent.getRawX();
-            downRawY = motionEvent.getRawY();
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                downRawX = motionEvent.getRawX();
+                downRawY = motionEvent.getRawY();
+                dX = view.getX() - downRawX;
+                dY = view.getY() - downRawY;
+                return true; // Consumed
+            case MotionEvent.ACTION_MOVE:
+                int viewWidth = view.getWidth();
+                int viewHeight = view.getHeight();
 
-            dX = view.getX() - downRawX;
-            dY = view.getY() - downRawY;
-            return true; // Consumed
+                View viewParent = (View)view.getParent();
+                int parentWidth = viewParent.getWidth();
+                int parentHeight = viewParent.getHeight();
+
+                float newX = motionEvent.getRawX() + dX;
+                newX = Math.max(layoutParams.leftMargin, newX); // Don't allow the FAB past the left hand side of the parent
+                newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX); // Don't allow the FAB past the right hand side of the parent
+
+                float newY = motionEvent.getRawY() + dY;
+                newY = Math.max(layoutParams.topMargin, newY); // Don't allow the FAB past the top of the parent
+                newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY); // Don't allow the FAB past the bottom of the parent
+
+                view.animate()
+                        .x(newX)
+                        .y(newY)
+                        .setDuration(0)
+                        .start();
+                return true; // Consumed
+            case MotionEvent.ACTION_UP:
+                float upRawX = motionEvent.getRawX();
+                float upRawY = motionEvent.getRawY();
+
+                float upDX = upRawX - downRawX;
+                float upDY = upRawY - downRawY;
+
+                return canClick(view, upDX, upDY);
+            default:
+                return super.onTouchEvent(motionEvent);
         }
-        else if (action == MotionEvent.ACTION_MOVE) {
-            int viewWidth = view.getWidth();
-            int viewHeight = view.getHeight();
-
-            View viewParent = (View)view.getParent();
-            int parentWidth = viewParent.getWidth();
-            int parentHeight = viewParent.getHeight();
-
-            float newX = motionEvent.getRawX() + dX;
-            newX = Math.max(layoutParams.leftMargin, newX); // Don't allow the FAB past the left hand side of the parent
-            newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX); // Don't allow the FAB past the right hand side of the parent
-
-            float newY = motionEvent.getRawY() + dY;
-            newY = Math.max(layoutParams.topMargin, newY); // Don't allow the FAB past the top of the parent
-            newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY); // Don't allow the FAB past the bottom of the parent
-
-            view.animate()
-                    .x(newX)
-                    .y(newY)
-                    .setDuration(0)
-                    .start();
-            return true; // Consumed
-        }
-        else if (action == MotionEvent.ACTION_UP) {
-            float upRawX = motionEvent.getRawX();
-            float upRawY = motionEvent.getRawY();
-
-            float upDX = upRawX - downRawX;
-            float upDY = upRawY - downRawY;
-
-            return canClick(view, upDX, upDY);
-        }
-        else return super.onTouchEvent(motionEvent);
     }
 }
