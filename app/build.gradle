@@ -47,7 +47,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.5.3'
     //endregion
     //region Google Library
-    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'com.google.android.material:material:1.8.0'
     //endregion
     //region Android Unit Test and U.I. Test Library
     testImplementation 'junit:junit:4.13.2'
