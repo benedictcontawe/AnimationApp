@@ -30,7 +30,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95"/>
         <!--endregion-->
-        <!--region Horizontal Guidlines-->
+        <!--region Horizontal Guide lines-->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/constraint_guideline_horizontal_top"
             android:layout_width="wrap_content"
@@ -77,6 +77,22 @@
             android:drawingCacheQuality="high"
             android:scaleType="fitXY"
             app:backgroundTint="@color/purple_500"
+            app:fabSize="auto"
+            app:srcCompat="@drawable/ic_android_red"
+            app:tint="@color/white"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintTop_toTopOf="@id/constraint_guideline_horizontal_90"
+            app:layout_constraintEnd_toEndOf="@id/constraint_guideline_vertical_trailing"
+            app:layout_constraintBottom_toBottomOf="@id/constraint_guideline_horizontal_bottom" />
+
+        <com.example.animationapp.MagneticFloatingActionButton
+            android:id="@+id/magnetic_floating_action_button_android"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:contentDescription="@string/android"
+            android:drawingCacheQuality="high"
+            android:scaleType="fitXY"
+            app:backgroundTint="@color/purple_700"
             app:fabSize="auto"
             app:srcCompat="@drawable/ic_android_red"
             app:tint="@color/white"
