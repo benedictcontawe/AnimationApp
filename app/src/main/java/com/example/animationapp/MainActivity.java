@@ -14,6 +14,7 @@ import com.example.animationapp.databinding.MainBinder;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnTouchListener {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
     private MainBinder binder;
     private MainViewModel viewModel;
 
@@ -25,17 +26,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         binder.setViewModel(viewModel);
         binder.setLifecycleOwner(this);
-        binder.movableFloatingActionButtonAndroid.setOnClickListener(this::onClick);
         binder.floatingActionButtonAndroid.setOnClickListener(this::onClick);
+        binder.movableFloatingActionButtonAndroid.setOnClickListener(this::onClick);
         binder.floatingActionButtonAndroid.setOnTouchListener(this::onTouch);
     }
 
     @Override
     public void onClick(View view) {
-        if (view == binder.movableFloatingActionButtonAndroid)
-            Toast.makeText(this, "Movable Floating Action Button", Toast.LENGTH_SHORT).show();
-        else if (view == binder.floatingActionButtonAndroid)
+        if (view == binder.floatingActionButtonAndroid)
             Toast.makeText(this, "Floating Action Button", Toast.LENGTH_SHORT).show();
+        else if (view == binder.movableFloatingActionButtonAndroid)
+            Toast.makeText(this, "Movable Floating Action Button", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -49,24 +50,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 binder.getViewModel().setdY(view.getY() - binder.getViewModel().getDownRawY());
                 return true; // Consumed
             case MotionEvent.ACTION_MOVE:
-                int viewWidth = view.getWidth();
-                int viewHeight = view.getHeight();
-
-                View viewParent = (View)view.getParent();
-                int parentWidth = viewParent.getWidth();
-                int parentHeight = viewParent.getHeight();
-
-                float newX = motionEvent.getRawX() + binder.getViewModel().getdX();
-                newX = Math.max(layoutParams.leftMargin, newX); // Don't allow the FAB past the left hand side of the parent
-                newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX); // Don't allow the FAB past the right hand side of the parent
-
-                float newY = motionEvent.getRawY() + binder.getViewModel().getdY();
-                newY = Math.max(layoutParams.topMargin, newY); // Don't allow the FAB past the top of the parent
-                newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY); // Don't allow the FAB past the bottom of the parent
-
+                binder.getViewModel().setViewDimension(view);
+                binder.getViewModel().setParentDimension(view.getParent());
+                binder.getViewModel().setNewX(motionEvent.getRawX(), layoutParams);
+                binder.getViewModel().setNewY(motionEvent.getRawY(), layoutParams);
                 view.animate()
-                        .x(newX)
-                        .y(newY)
+                        .x( binder.getViewModel().getNewX() )
+                        .y( binder.getViewModel().getNewY() )
                         .setDuration(0)
                         .start();
                 return true; // Consumed

@@ -30,7 +30,7 @@
             android:orientation="vertical"
             app:layout_constraintGuide_percent="0.95"/>
         <!--endregion-->
-        <!--region Horizontal Guidlines-->
+        <!--region Horizontal Guide lines-->
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/constraint_guideline_horizontal_top"
             android:layout_width="wrap_content"
