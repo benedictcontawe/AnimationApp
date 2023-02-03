@@ -53,7 +53,6 @@
             app:layout_constraintGuide_percent="0.95" />
         <!--endregion-->
         <!--endregion-->
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_action_button_android"
             android:layout_width="wrap_content"

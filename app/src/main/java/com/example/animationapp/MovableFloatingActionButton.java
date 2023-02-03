@@ -10,9 +10,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class MovableFloatingActionButton extends FloatingActionButton implements View.OnTouchListener {
 
-    private final static float CLICK_DRAG_TOLERANCE = 10; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
-    private float downRawX, downRawY;
-    private float dX, dY;
+    private static final String TAG = MovableFloatingActionButton.class.getSimpleName();
+    protected final static float CLICK_DRAG_TOLERANCE = 10; // Often, there will be a slight, unintentional, drag when the user taps the FAB, so we need to account for this.
+    protected float downRawX, downRawY, dX, dY, newX, newY, upRawX, upRawY, upDX, upDY;
+    protected int viewWidth, viewHeight, parentWidth, parentHeight;
 
     public MovableFloatingActionButton(Context context) {
         super(context);
@@ -29,15 +30,53 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         init();
     }
 
-    private void init() {
+    protected void init() {
         setOnTouchListener(this);
     }
 
-    private boolean canClick(View view, float upDX, float upDY) {
+    protected boolean canClick(View view, float upDX, float upDY) {
         if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE)
             return view.performClick();
         else
             return true; // Consumed
+    }
+
+    protected void setActionDown(View view, MotionEvent motionEvent) {
+        downRawX = motionEvent.getRawX();
+        downRawY = motionEvent.getRawY();
+        dX = view.getX() - downRawX;
+        dY = view.getY() - downRawY;
+    }
+
+    protected void setActionMove(View view, MotionEvent motionEvent, ViewGroup.MarginLayoutParams layoutParams) {
+        viewWidth = view.getWidth();
+        viewHeight = view.getHeight();
+
+        View viewParent = (View)view.getParent();
+        parentWidth = viewParent.getWidth();
+        parentHeight = viewParent.getHeight();
+
+        newX = motionEvent.getRawX() + dX;
+        newX = Math.max(layoutParams.leftMargin, newX); // Don't allow the FAB past the left hand side of the parent
+        newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX); // Don't allow the FAB past the right hand side of the parent
+
+        newY = motionEvent.getRawY() + dY;
+        newY = Math.max(layoutParams.topMargin, newY); // Don't allow the FAB past the top of the parent
+        newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY); // Don't allow the FAB past the bottom of the parent
+
+        view.animate()
+                .x(newX)
+                .y(newY)
+                .setDuration(0)
+                .start();
+    }
+
+    protected void setActionUp(View view, MotionEvent motionEvent) {
+        upRawX = motionEvent.getRawX();
+        upRawY = motionEvent.getRawY();
+
+        upDX = upRawX - downRawX;
+        upDY = upRawY - downRawY;
     }
 
     @Override
@@ -45,40 +84,13 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams)view.getLayoutParams();
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                downRawX = motionEvent.getRawX();
-                downRawY = motionEvent.getRawY();
-                dX = view.getX() - downRawX;
-                dY = view.getY() - downRawY;
+                setActionDown(view, motionEvent);
                 return true; // Consumed
             case MotionEvent.ACTION_MOVE:
-                int viewWidth = view.getWidth();
-                int viewHeight = view.getHeight();
-
-                View viewParent = (View)view.getParent();
-                int parentWidth = viewParent.getWidth();
-                int parentHeight = viewParent.getHeight();
-
-                float newX = motionEvent.getRawX() + dX;
-                newX = Math.max(layoutParams.leftMargin, newX); // Don't allow the FAB past the left hand side of the parent
-                newX = Math.min(parentWidth - viewWidth - layoutParams.rightMargin, newX); // Don't allow the FAB past the right hand side of the parent
-
-                float newY = motionEvent.getRawY() + dY;
-                newY = Math.max(layoutParams.topMargin, newY); // Don't allow the FAB past the top of the parent
-                newY = Math.min(parentHeight - viewHeight - layoutParams.bottomMargin, newY); // Don't allow the FAB past the bottom of the parent
-
-                view.animate()
-                        .x(newX)
-                        .y(newY)
-                        .setDuration(0)
-                        .start();
+                setActionMove(view, motionEvent, layoutParams);
                 return true; // Consumed
             case MotionEvent.ACTION_UP:
-                float upRawX = motionEvent.getRawX();
-                float upRawY = motionEvent.getRawY();
-
-                float upDX = upRawX - downRawX;
-                float upDY = upRawY - downRawY;
-
+                setActionUp(view, motionEvent);
                 return canClick(view, upDX, upDY);
             default:
                 return super.onTouchEvent(motionEvent);
