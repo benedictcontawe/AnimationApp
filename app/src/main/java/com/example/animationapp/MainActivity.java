@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 binder.getViewModel().setNewX(layoutParams);
                 view.animate()
                         .x( binder.getViewModel().getNewX() )
-                        .y( binder.getViewModel().getNewY())
+                        .y( binder.getViewModel().getNewY() )
                         .setInterpolator(new OvershootInterpolator())
                         .setDuration(300)
                         .start();
