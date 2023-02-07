@@ -31,11 +31,11 @@ public class MainViewModel extends ViewModel {
         this.downRawY = downRawY;
     }
 
-    public void setdX(float dX) {
+    public void setDx(float dX) {
         this.dX = dX;
     }
 
-    public void setdY(float dY) {
+    public void setDy(float dY) {
         this.dY = dY;
     }
 
@@ -86,14 +86,32 @@ public class MainViewModel extends ViewModel {
         return newY;
     }
 
-    public boolean canClick(float upDX, float upDY) {
+    private void setRippleEffect(View view, long delayMillis) {
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setPressed(true);
+            }
+        },delayMillis);
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setPressed(false);
+            }
+        },delayMillis);
+    }
+
+    private boolean canClick(float upDX, float upDY) {
         return Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE;
     }
 
     public boolean canClick(View view, float upDX, float upDY) {
-        if (canClick(upDX, upDY))
+        if (canClick(upDX, upDY)) {
+            setRippleEffect(view, 250);
             return view.performClick();
-        else
-            return true; // Consumed
+        } else {
+            setRippleEffect(view, 250);
+            return true; //Consumed
+        }
     }
 }

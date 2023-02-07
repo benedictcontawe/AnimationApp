@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case MotionEvent.ACTION_DOWN:
                 binder.getViewModel().setDownRawX(motionEvent.getRawX());
                 binder.getViewModel().setDownRawY(motionEvent.getRawY());
-                binder.getViewModel().setdX(view.getX() - binder.getViewModel().getDownRawX());
-                binder.getViewModel().setdY(view.getY() - binder.getViewModel().getDownRawY());
+                binder.getViewModel().setDx(view.getX() - binder.getViewModel().getDownRawX());
+                binder.getViewModel().setDy(view.getY() - binder.getViewModel().getDownRawY());
                 return false; // not Consumed for ripple effect
             case MotionEvent.ACTION_MOVE:
                 binder.getViewModel().setViewDimension(view);
