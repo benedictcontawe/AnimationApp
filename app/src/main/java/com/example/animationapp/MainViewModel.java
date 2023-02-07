@@ -71,10 +71,6 @@ public class MainViewModel extends ViewModel {
         return newY;
     }
 
-    public boolean canClick(float upDX, float upDY) {
-        return Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE;
-    }
-
     private void setRippleEffect(View view, long delayMillis) {
         view.postDelayed(new Runnable() {
             @Override
@@ -88,6 +84,10 @@ public class MainViewModel extends ViewModel {
                 view.setPressed(false);
             }
         },delayMillis);
+    }
+
+    private boolean canClick(float upDX, float upDY) {
+        return Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE;
     }
 
     public boolean canClick(View view, float upDX, float upDY) {
