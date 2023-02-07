@@ -46,9 +46,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case MotionEvent.ACTION_DOWN:
                 binder.getViewModel().setDownRawX(motionEvent.getRawX());
                 binder.getViewModel().setDownRawY(motionEvent.getRawY());
-                binder.getViewModel().setdX(view.getX() - binder.getViewModel().getDownRawX());
-                binder.getViewModel().setdY(view.getY() - binder.getViewModel().getDownRawY());
-                return true; // Consumed
+                binder.getViewModel().setDx(view.getX() - binder.getViewModel().getDownRawX());
+                binder.getViewModel().setDy(view.getY() - binder.getViewModel().getDownRawY());
+                return false; //Ripple Effect
             case MotionEvent.ACTION_MOVE:
                 binder.getViewModel().setViewDimension(view);
                 binder.getViewModel().setParentDimension(view.getParent());
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         .y( binder.getViewModel().getNewY() )
                         .setDuration(0)
                         .start();
-                return true; // Consumed
+                return true; //Consumed
             case MotionEvent.ACTION_UP:
                 float upRawX = motionEvent.getRawX();
                 float upRawY = motionEvent.getRawY();

@@ -34,11 +34,33 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         setOnTouchListener(this);
     }
 
+    private void setRippleEffect(View view, long delayMillis) {
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setPressed(true);
+            }
+        },delayMillis);
+        view.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                view.setPressed(false);
+            }
+        },delayMillis);
+    }
+
+    private boolean canClick(float upDX, float upDY) {
+        return Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE;
+    }
+
     protected boolean canClick(View view, float upDX, float upDY) {
-        if (Math.abs(upDX) < CLICK_DRAG_TOLERANCE && Math.abs(upDY) < CLICK_DRAG_TOLERANCE)
+        if (canClick(upDX, upDY)) {
+            setRippleEffect(view, 250);
             return view.performClick();
-        else
-            return true; // Consumed
+        } else {
+            setRippleEffect(view, 250);
+            return true; //Consumed
+        }
     }
 
     protected void setActionDown(View view, MotionEvent motionEvent) {
@@ -85,7 +107,7 @@ public class MovableFloatingActionButton extends FloatingActionButton implements
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 setActionDown(view, motionEvent);
-                return true; // Consumed
+                return false; //Ripple Effect
             case MotionEvent.ACTION_MOVE:
                 setActionMove(view, motionEvent, layoutParams);
                 return true; // Consumed
