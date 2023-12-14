@@ -3,13 +3,12 @@ package com.example.animationapp
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.view.View.OnClickListener
 import androidx.databinding.DataBindingUtil
 import androidx.vectordrawable.graphics.drawable.Animatable2Compat
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import com.example.animationapp.databinding.MainBinder
 
-class MainActivity : AppCompatActivity(), OnClickListener {
+class MainActivity : AppCompatActivity(), View.OnClickListener {
 
     private var binder : MainBinder? = null
     private var isPlay : Boolean? = null
