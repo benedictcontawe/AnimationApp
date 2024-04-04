@@ -71,9 +71,18 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         setFocusable(true);
     }
 
+    private int getRandomInt(int minimum, int maximum) {
+        return random.nextInt((maximum - minimum) + 1) + minimum;
+    }
+
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated");
+        if (runnable.getState().equals(Thread.State.TERMINATED)) {
+            SurfaceHolder surfaceHolder = holder;
+            surfaceHolder.addCallback(this);
+            runnable = new CustomThread(this, surfaceHolder);
+        }
         runnable.onStart();
     }
 
@@ -129,27 +138,24 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        Log.d(TAG,"draw with canvas");
-        if(getHolder().getSurface().isValid()) {
-            canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
-            //region Draw Terrain
-            canvas.drawBitmap(terrainLead.bitmap, terrainLead.positionX, terrainLead.positionY, paint);
-            canvas.drawBitmap(terrainTrail.bitmap, terrainTrail.positionX, terrainTrail.positionY, paint);
-            //endregion
-            //region Draw Drops
-            for (DropParticle drop : drops) {
-                if (drop.isSpawnDelayFinished())
-                    canvas.drawBitmap(drop.getBitmap(), drop.positionX, drop.positionY, paint);
-            }
-            //endregion
-            //region Update Diamonds
-            for (DiamondCollectible diamond : diamonds) {
-                if (diamond.isSpawnDelayFinished())
-                    canvas.drawBitmap(diamond.getBitmap(), diamond.positionX, diamond.positionY, paint);
-            }
-            //endregion
-            getHolder().unlockCanvasAndPost(canvas);
+        Log.d(TAG,"draw");
+        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        //region Draw Terrain
+        canvas.drawBitmap(terrainLead.bitmap, terrainLead.positionX, terrainLead.positionY, paint);
+        canvas.drawBitmap(terrainTrail.bitmap, terrainTrail.positionX, terrainTrail.positionY, paint);
+        //endregion
+        //region Draw Drops
+        for (DropParticle drop : drops) {
+            if (drop.isSpawnDelayFinished())
+                canvas.drawBitmap(drop.getBitmap(), drop.positionX, drop.positionY, paint);
         }
+        //endregion
+        //region Update Diamonds
+        for (DiamondCollectible diamond : diamonds) {
+            if (diamond.isSpawnDelayFinished())
+                canvas.drawBitmap(diamond.getBitmap(), diamond.positionX, diamond.positionY, paint);
+        }
+        //endregion
     }
 
     @Override
@@ -167,10 +173,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             default:
                 return super.onTouchEvent(event);
         }
-    }
-
-    private int getRandomInt(int minimum, int maximum) {
-        return random.nextInt((maximum - minimum) + 1) + minimum;
     }
 
     @Override
