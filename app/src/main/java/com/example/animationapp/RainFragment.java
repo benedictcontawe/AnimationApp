@@ -93,14 +93,14 @@ public class RainFragment extends Fragment {
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        customSurfaceView.pause();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         customSurfaceView.resume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        customSurfaceView.pause();
     }
 }
