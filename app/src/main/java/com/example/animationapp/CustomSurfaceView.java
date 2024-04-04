@@ -163,9 +163,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                if (event.getX() < screenX / 2) {
-                    Log.d(TAG,"Touching Left Screen");
-                }
                 Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY());
                 int x = Math.round(event.getRawX());
                 int y = Math.round(event.getRawY());
