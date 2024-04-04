@@ -10,4 +10,13 @@ public class Terrain extends GameObject {
         bitmap = BitmapFactory.decodeResource(resources, R.drawable.background);
         bitmap = Bitmap.createScaledBitmap(bitmap, screenX, screenY, false);
     }
+
+    public Terrain setSpawnX(int spawnX) {
+        this.x = spawnX;
+        return this;
+    }
+
+    public Terrain build() {
+        return this;
+    }
 }

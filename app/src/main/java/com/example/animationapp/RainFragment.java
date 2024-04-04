@@ -33,7 +33,7 @@ public class RainFragment extends Fragment {
     private CustomSurfaceView customSurfaceView;
 
     public RainFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -43,7 +43,7 @@ public class RainFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        customSurfaceView = new CustomSurfaceView(requireContext(), getWidth(), getHeight());
+        customSurfaceView = CustomSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
         return customSurfaceView;
     }
 

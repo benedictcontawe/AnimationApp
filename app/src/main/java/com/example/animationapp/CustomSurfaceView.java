@@ -14,6 +14,9 @@ import java.util.Random;
 
 public class CustomSurfaceView extends SurfaceView implements Runnable {
 
+    public static CustomSurfaceView newInstance(Context context, int screenX, int screenY) {
+        return new CustomSurfaceView(context, screenX, screenY);
+    }
     private Thread thread;
     private boolean isPlaying;
     private int screenX, screenY;
@@ -32,18 +35,17 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
         paint = new Paint();
         random = new Random();
         //region Initialize Terrain
-        terrainLead = new Terrain(getResources(), screenX, screenY);
-        terrainTrail = new Terrain(getResources(), screenX, screenY);
-        terrainTrail.x = screenX;
+        terrainLead = new Terrain(getResources(), screenX, screenY).build();
+        terrainTrail = new Terrain(getResources(), screenX, screenY).setSpawnX(screenX).build();
         //endregion
         //region Initialize Drops
         drops = new ArrayList<>();
-        for (int index = 0; index < 30; index++) {
+        for (int index = 0; index < 31; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
-                    .setSpawnX(getRandomInt(0, screenX))
-                    .setSpawnY(0)
-                    .setSpawnDelay(getRandomInt(0, 30))
-                    .build();
+                .setSpawnX(getRandomInt(0, screenX))
+                .setSpawnY(0)
+                .setSpawnDelay(getRandomInt(0, 30))
+                .build();
             drops.add(index, drop);
         }
         //endregion
@@ -51,10 +53,10 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
         diamonds = new ArrayList<>();
         for (int index = 0; index < 3; index++) {
             final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
-                    .setSpawnX(getRandomInt(0, screenX))
-                    .setSpawnY(0)
-                    .setSpawnDelay(getRandomInt(0, 30))
-                    .build();
+                .setSpawnX(getRandomInt(0, screenX))
+                .setSpawnY(0)
+                .setSpawnDelay(getRandomInt(0, 30))
+                .build();
             diamonds.add(index, diamond);
         }
         //endregion
