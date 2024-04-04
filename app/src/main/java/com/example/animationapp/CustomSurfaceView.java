@@ -22,6 +22,7 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
     private Random random;
     private Terrain terrainLead, terrainTrail;
     private List<DropParticle> drops;
+    private List<DiamondCollectible> diamonds;
     public CustomSurfaceView(Context context, int screenX, int screenY) {
         super(context);
         this.screenX = screenX;
@@ -30,9 +31,12 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
         screenRatioY = 1080f / screenY;
         paint = new Paint();
         random = new Random();
+        //region Initialize Terrain
         terrainLead = new Terrain(getResources(), screenX, screenY);
         terrainTrail = new Terrain(getResources(), screenX, screenY);
         terrainTrail.x = screenX;
+        //endregion
+        //region Initialize Drops
         drops = new ArrayList<>();
         for (int index = 0; index < 30; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
@@ -42,6 +46,18 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
                     .build();
             drops.add(index, drop);
         }
+        //endregion
+        //region Initialize Diamonds
+        diamonds = new ArrayList<>();
+        for (int index = 0; index < 3; index++) {
+            final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
+                    .setSpawnX(getRandomInt(0, screenX))
+                    .setSpawnY(0)
+                    .setSpawnDelay(getRandomInt(0, 30))
+                    .build();
+            diamonds.add(index, diamond);
+        }
+        //endregion
     }
 
     @Override
@@ -54,6 +70,7 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
     }
 
     private void update() {
+        //region Update Terrain
         terrainLead.x -= 10 * screenRatioX;
         terrainTrail.x -= 10 * screenRatioX;
         if (terrainLead.x + terrainLead.bitmap.getWidth() < 0) {
@@ -62,9 +79,11 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
         if (terrainTrail.x + terrainTrail.bitmap.getWidth() < 0) {
             terrainTrail.x = screenX;
         }
-        List<DropParticle> trash = new ArrayList<>();
+        //endregion
+        //region Update Drops
+        List<DropParticle> puddles = new ArrayList<>();
         for (DropParticle drop : drops) {
-            if (drop.y > screenY) trash.add(drop);
+            if (drop.y > screenY) puddles.add(drop);
 
             if (drop.isSpawnDelayFinished()) {
                 drop.y += (int) (5 * screenRatioY);
@@ -72,21 +91,47 @@ public class CustomSurfaceView extends SurfaceView implements Runnable {
                 drop.updateSpawnDelay(1);
             }
         }
-        for (DropParticle drop : trash) {
+        for (DropParticle drop : puddles) {
             drops.remove(drop);
         }
+        //endregion
+        //region Update Diamonds
+        List<DiamondCollectible> stones = new ArrayList<>();
+        for (DiamondCollectible diamond : diamonds) {
+            if (diamond.y > screenY) stones.add(diamond);
+
+            if (diamond.isSpawnDelayFinished()) {
+                diamond.y += (int) (5 * screenRatioY);
+            } else {
+                diamond.updateSpawnDelay(1);
+            }
+        }
+        for (int index = 0; index < stones.size(); index++) {
+            stones.remove(diamonds.get(index));
+        }
+        //endregion
     }
 
     private void draw() {
         if(getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
             canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+            //region Draw Terrain
             canvas.drawBitmap(terrainLead.bitmap, terrainLead.x, terrainLead.y, paint);
             canvas.drawBitmap(terrainTrail.bitmap, terrainTrail.x, terrainTrail.y, paint);
+            //endregion
+            //region Draw Drops
             for (DropParticle drop : drops) {
                 if (drop.isSpawnDelayFinished())
                     canvas.drawBitmap(drop.getBitmap(), drop.x, drop.y, paint);
             }
+            //endregion
+            //region Update Diamonds
+            for (DiamondCollectible diamond : diamonds) {
+                if (diamond.isSpawnDelayFinished())
+                    canvas.drawBitmap(diamond.getBitmap(), diamond.x, diamond.y, paint);
+            }
+            //endregion
             getHolder().unlockCanvasAndPost(canvas);
         }
     }
