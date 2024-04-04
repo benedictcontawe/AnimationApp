@@ -22,16 +22,16 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
 
-public class RainFragment extends Fragment {
-    public static String TAG = RainFragment.class.getSimpleName();
-    public static RainFragment newInstance() {
-        RainFragment fragment = new RainFragment();
+public class SurfaceFragment extends Fragment {
+    public static String TAG = SurfaceFragment.class.getSimpleName();
+    public static SurfaceFragment newInstance() {
+        SurfaceFragment fragment = new SurfaceFragment();
         return fragment;
     }
 
     private CustomSurfaceView customSurfaceView;
 
-    public RainFragment() {
+    public SurfaceFragment() {
 
     }
 

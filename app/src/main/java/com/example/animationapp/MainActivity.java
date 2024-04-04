@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main); //setContentView(CustomSurfaceView(this, getWidth(), getHeight()));
         getSupportFragmentManager().beginTransaction()
-            .add(R.id.container, RainFragment.newInstance())
-            .addToBackStack(RainFragment.TAG).commit();
+            .add(R.id.container, SurfaceFragment.newInstance())
+            .addToBackStack(SurfaceFragment.TAG).commit();
     }
 }
