@@ -19,12 +19,12 @@ public class DropParticle extends GameObject {
     }
 
     public DropParticle setSpawnX(int spawnX) {
-        this.x = spawnX;
+        this.positionX = spawnX;
         return this;
     }
 
     public DropParticle setSpawnY(int spawnY) {
-        this.y = spawnY;
+        this.positionY = spawnY;
         return this;
     }
 

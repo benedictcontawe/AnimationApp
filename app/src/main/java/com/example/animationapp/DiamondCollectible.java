@@ -19,12 +19,12 @@ public class DiamondCollectible extends GameObject {
     }
 
     public DiamondCollectible setSpawnX(int spawnX) {
-        this.x = spawnX;
+        this.positionX = spawnX;
         return this;
     }
 
     public DiamondCollectible setSpawnY(int spawnY) {
-        this.y = spawnY;
+        this.positionY = spawnY;
         return this;
     }
 

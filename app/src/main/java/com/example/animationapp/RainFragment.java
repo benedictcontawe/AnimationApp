@@ -23,7 +23,6 @@ import android.view.WindowManager;
 import android.view.WindowMetrics;
 
 public class RainFragment extends Fragment {
-
     public static String TAG = RainFragment.class.getSimpleName();
     public static RainFragment newInstance() {
         RainFragment fragment = new RainFragment();
@@ -95,12 +94,20 @@ public class RainFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        customSurfaceView.resume();
+        Log.d(TAG,"onResume");
+        //customSurfaceView.resume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        customSurfaceView.pause();
+        Log.d(TAG,"onPause");
+        //customSurfaceView.pause();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG,"onDestroy");
     }
 }

@@ -12,7 +12,7 @@ public class Terrain extends GameObject {
     }
 
     public Terrain setSpawnX(int spawnX) {
-        this.x = spawnX;
+        this.positionX = spawnX;
         return this;
     }
 

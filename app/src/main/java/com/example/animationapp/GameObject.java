@@ -3,12 +3,13 @@ package com.example.animationapp;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 
 public class GameObject {
 
     protected Bitmap bitmap;
-    protected int width, height, spawnDelay, x, y;
+    protected int width, height, spawnDelay, positionX, positionY;
 
     public GameObject() {
         /*
@@ -29,5 +30,9 @@ public class GameObject {
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    protected Rect getCollisionShape () {
+        return new Rect(positionX, positionY, positionX + width, positionY + height);
     }
 }
