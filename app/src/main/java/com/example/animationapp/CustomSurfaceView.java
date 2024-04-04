@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -165,8 +166,20 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 if (event.getX() < screenX / 2) {
                     Log.d(TAG,"Touching Left Screen");
                 }
+                Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY());
+                int x = Math.round(event.getRawX());
+                int y = Math.round(event.getRawY());
+                final Rect touchBoxCollider2D = new Rect(x - 3, y - 3, x + 3, y + 3);
+                for (DiamondCollectible diamond : diamonds) {
+                    if (Rect.intersects(touchBoxCollider2D, diamond.getCollisionShape())) {
+                        Log.d(TAG,"onTouchEvent ACTION_DOWN Diamond Collected!");
+                    }
+                }
+                if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_DOWN Left Screen");
                 return true;
             case MotionEvent.ACTION_MOVE:
+                Log.d(TAG,"onTouchEvent ACTION_MOVE x " + event.getX() + " y " + event.getY());
+                if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_MOVE Left Screen");
                 return true;
             case MotionEvent.ACTION_UP:
                 return true;
