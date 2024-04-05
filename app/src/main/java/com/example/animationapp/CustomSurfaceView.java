@@ -21,10 +21,11 @@ import java.util.Random;
 public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
 
     public static String TAG = CustomSurfaceView.class.getSimpleName();
-    public static CustomSurfaceView newInstance(Context context, int screenX, int screenY) {
-        return new CustomSurfaceView(context, screenX, screenY);
+    public static CustomSurfaceView newInstance(Context context, int screenX, int screenY, Listener listener) {
+        return new CustomSurfaceView(context, screenX, screenY, listener);
     }
     private CustomThread thread;
+    private Listener listener;
     private int screenX, screenY;
     private float screenRatioX, screenRatioY;
     private final Paint paint;
@@ -32,19 +33,20 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private Terrain terrainLead, terrainTrail;
     private List<DropParticle> drops;
     private List<DiamondCollectible> diamonds;
-    public CustomSurfaceView(Context context, int screenX, int screenY) {
+    public CustomSurfaceView(Context context, int screenX, int screenY, Listener listener) {
         super(context);
         Log.d(TAG,"Constructor");
-        //setZOrderOnTop(true);
+        setZOrderOnTop(true);
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
+        this.listener = listener;
         paint = new Paint();
         random = new Random();
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
-        //surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+        surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
         thread = new CustomThread(this, surfaceHolder);
         //region Initialize Terrain
         terrainLead = new Terrain(getResources(), screenX, screenY).build();
@@ -52,7 +54,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //endregion
         //region Initialize Drops
         drops = new ArrayList<>();
-        for (int index = 0; index < 31; index++) {
+        for (int index = 0; index < 11; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
                 .setSpawnX(getRandomInt(0, screenX))
                 .setSpawnY(0)
@@ -63,7 +65,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //endregion
         //region Initialize Diamonds
         diamonds = new ArrayList<>();
-        for (int index = 0; index < 3; index++) {
+        for (int index = 0; index < 13; index++) {
             final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
                 .setSpawnX(getRandomInt(0, screenX))
                 .setSpawnY(0)
@@ -85,7 +87,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         if (thread.getState().equals(Thread.State.TERMINATED)) {
             SurfaceHolder surfaceHolder = holder;
             surfaceHolder.addCallback(this);
-            //surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+            surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
             thread = new CustomThread(this, surfaceHolder);
         }
         thread.onStart();
@@ -119,8 +121,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 drop.updateSpawnDelay(1);
             }
         }
-        for (DropParticle drop : puddles) {
-            drops.remove(drop);
+        for (DropParticle puddle : puddles) {
+            drops.remove(puddle);
         }
         //endregion
         //region Update Diamonds
@@ -137,13 +139,17 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             diamonds.remove(stones.get(index));
         }
         //endregion
+        if (drops.isEmpty() && diamonds.isEmpty()) {
+            Log.d(TAG,"Drops and Diamonds are Empty!");
+            listener.onCloseGame();
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         Log.d(TAG,"draw");
-        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+        canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
         //region Draw Terrain
         canvas.drawBitmap(terrainLead.bitmap, terrainLead.positionX, terrainLead.positionY, paint);
         canvas.drawBitmap(terrainTrail.bitmap, terrainTrail.positionX, terrainTrail.positionY, paint);
@@ -166,24 +172,32 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY());
+                Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY() + " pointer count" + event.getPointerCount());
                 int x = Math.round(event.getRawX());
                 int y = Math.round(event.getRawY());
                 final Rect touchBoxCollider2D = new Rect(x - 3, y - 3, x + 3, y + 3);
                 for (DiamondCollectible diamond : diamonds) {
                     diamond.onTriggerCollide(touchBoxCollider2D);
                 }
-                if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_DOWN Left Screen");
+                //if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_DOWN Left Screen");
                 return true;
             case MotionEvent.ACTION_MOVE:
-                Log.d(TAG,"onTouchEvent ACTION_MOVE x " + event.getX() + " y " + event.getY());
-                if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_MOVE Left Screen");
+                Log.d(TAG,"onTouchEvent ACTION_MOVE x " + event.getX() + " y " + event.getY() + " pointer count" + event.getPointerCount());
+                //if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_MOVE Left Screen");
                 return true;
             case MotionEvent.ACTION_UP:
                 return true;
             default:
                 return super.onTouchEvent(event);
         }
+    }
+
+    public void onResume() {
+        thread.onStart();
+    }
+
+    public void onPause() {
+        thread.onPause();
     }
 
     @Override

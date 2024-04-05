@@ -23,13 +23,16 @@ import android.view.WindowManager;
 import android.view.WindowMetrics;
 
 public class SurfaceFragment extends Fragment {
+
     public static String TAG = SurfaceFragment.class.getSimpleName();
-    public static SurfaceFragment newInstance() {
+    public static SurfaceFragment newInstance(Listener listener) {
         SurfaceFragment fragment = new SurfaceFragment();
+        fragment.listener = listener;
         return fragment;
     }
 
     private CustomSurfaceView customSurfaceView;
+    private Listener listener;
 
     public SurfaceFragment() {
 
@@ -38,11 +41,13 @@ public class SurfaceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,"onCreate");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        customSurfaceView = CustomSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
+        Log.d(TAG,"onCreateView");
+        customSurfaceView = CustomSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
         return customSurfaceView;
     }
 
