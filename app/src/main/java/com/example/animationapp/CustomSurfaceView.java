@@ -57,7 +57,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         for (int index = 0; index < 11; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
                 .setSpawnX(getRandomInt(0, screenX))
-                .setSpawnY(0)
+                .setSpawnY(-13)
                 .setSpawnDelay(getRandomInt(0, 30))
                 .build();
             drops.add(index, drop);
@@ -68,7 +68,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         for (int index = 0; index < 13; index++) {
             final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
                 .setSpawnX(getRandomInt(0, screenX))
-                .setSpawnY(0)
+                .setSpawnY(-13)
                 .setSpawnDelay(getRandomInt(0, 30))
                 .build();
             diamonds.add(index, diamond);
