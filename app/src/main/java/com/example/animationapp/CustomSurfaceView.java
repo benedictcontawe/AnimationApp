@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.util.Log;
@@ -23,7 +24,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public static CustomSurfaceView newInstance(Context context, int screenX, int screenY) {
         return new CustomSurfaceView(context, screenX, screenY);
     }
-    private CustomThread runnable;
+    private CustomThread thread;
     private int screenX, screenY;
     private float screenRatioX, screenRatioY;
     private final Paint paint;
@@ -34,6 +35,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     public CustomSurfaceView(Context context, int screenX, int screenY) {
         super(context);
         Log.d(TAG,"Constructor");
+        //setZOrderOnTop(true);
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
@@ -42,7 +44,8 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         random = new Random();
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
-        runnable = new CustomThread(this, surfaceHolder);
+        //surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+        thread = new CustomThread(this, surfaceHolder);
         //region Initialize Terrain
         terrainLead = new Terrain(getResources(), screenX, screenY).build();
         terrainTrail = new Terrain(getResources(), screenX, screenY).setSpawnX(screenX).build();
@@ -79,12 +82,13 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated");
-        if (runnable.getState().equals(Thread.State.TERMINATED)) {
+        if (thread.getState().equals(Thread.State.TERMINATED)) {
             SurfaceHolder surfaceHolder = holder;
             surfaceHolder.addCallback(this);
-            runnable = new CustomThread(this, surfaceHolder);
+            //surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
+            thread = new CustomThread(this, surfaceHolder);
         }
-        runnable.onStart();
+        thread.onStart();
     }
 
     @Override
@@ -122,8 +126,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //region Update Diamonds
         List<DiamondCollectible> stones = new ArrayList<>();
         for (DiamondCollectible diamond : diamonds) {
-            if (diamond.positionY > screenY) stones.add(diamond);
-
+            if (diamond.positionY > screenY || diamond.isCollected) stones.add(diamond);
             if (diamond.isSpawnDelayFinished()) {
                 diamond.positionY += (int) (5 * screenRatioY);
             } else {
@@ -131,7 +134,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
             }
         }
         for (int index = 0; index < stones.size(); index++) {
-            stones.remove(diamonds.get(index));
+            diamonds.remove(stones.get(index));
         }
         //endregion
     }
@@ -168,9 +171,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
                 int y = Math.round(event.getRawY());
                 final Rect touchBoxCollider2D = new Rect(x - 3, y - 3, x + 3, y + 3);
                 for (DiamondCollectible diamond : diamonds) {
-                    if (Rect.intersects(touchBoxCollider2D, diamond.getCollisionShape())) {
-                        Log.d(TAG,"onTouchEvent ACTION_DOWN Diamond Collected!");
-                    }
+                    diamond.onTriggerCollide(touchBoxCollider2D);
                 }
                 if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_DOWN Left Screen");
                 return true;
@@ -188,6 +189,6 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     @Override
     public void surfaceDestroyed(@NonNull SurfaceHolder holder) {
         Log.d(TAG,"surfaceDestroyed");
-        runnable.onPause();
+        thread.onPause();
     }
 }

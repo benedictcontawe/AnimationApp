@@ -3,7 +3,7 @@ package com.example.animationapp;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-public class DiamondCollectible extends GameObject {
+public class DiamondCollectible extends CollectibleGameObject {
 
     public DiamondCollectible(Resources resources, float screenRatioX, float screenRatioY) {
         super();
