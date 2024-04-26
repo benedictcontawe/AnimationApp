@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -28,14 +29,43 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private Listener listener;
     private int screenX, screenY;
     private float screenRatioX, screenRatioY;
-    private final Paint paint;
+    private Paint paint;
     private Random random;
     private Terrain terrainLead, terrainTrail;
     private List<DropParticle> drops;
     private List<DiamondCollectible> diamonds;
+
+    public CustomSurfaceView(Context context) {
+        super(context);;
+    }
+
+    public CustomSurfaceView(Context context , AttributeSet attributeSet) {
+        super(context, attributeSet);
+    }
+
+    public CustomSurfaceView(Context context, AttributeSet attributeSet, int defStyle) {
+        super(context, attributeSet, defStyle);
+    }
+
     public CustomSurfaceView(Context context, int screenX, int screenY, Listener listener) {
         super(context);
         Log.d(TAG,"Constructor");
+        initialize(screenX, screenY, listener);
+    }
+
+    public CustomSurfaceView(Context context , AttributeSet attributeSet, int screenX, int screenY, Listener listener) {
+        super(context, attributeSet);
+        Log.d(TAG,"Constructor");
+        initialize(screenX, screenY, listener);
+    }
+
+    public CustomSurfaceView(Context context, AttributeSet attributeSet, int defStyle, int screenX, int screenY, Listener listener) {
+        super(context, attributeSet, defStyle);
+        Log.d(TAG,"Constructor");
+        initialize(screenX, screenY, listener);
+    }
+
+    private void initialize(int screenX, int screenY, Listener listener) {
         setZOrderOnTop(true);
         this.screenX = screenX;
         this.screenY = screenY;
@@ -56,10 +86,10 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         drops = new ArrayList<>();
         for (int index = 0; index < 11; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnX(getRandomInt(0, screenX))
-                .setSpawnY(-13)
-                .setSpawnDelay(getRandomInt(0, 30))
-                .build();
+                    .setSpawnX(getRandomInt(0, screenX))
+                    .setSpawnY(-13)
+                    .setSpawnDelay(getRandomInt(0, 30))
+                    .build();
             drops.add(index, drop);
         }
         //endregion
@@ -67,10 +97,10 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         diamonds = new ArrayList<>();
         for (int index = 0; index < 13; index++) {
             final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
-                .setSpawnX(getRandomInt(0, screenX))
-                .setSpawnY(-13)
-                .setSpawnDelay(getRandomInt(0, 30))
-                .build();
+                    .setSpawnX(getRandomInt(0, screenX))
+                    .setSpawnY(-13)
+                    .setSpawnDelay(getRandomInt(0, 30))
+                    .build();
             diamonds.add(index, diamond);
         }
         //endregion
