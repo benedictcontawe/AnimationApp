@@ -13,3 +13,7 @@
 - [Android - Movable/Draggable Floating Action Button (FAB)](https://stackoverflow.com/questions/46370836/android-movable-draggable-floating-action-button-fab)
 
 - [setColorFilter is deprecated on API29](https://stackoverflow.com/questions/56716093/setcolorfilter-is-deprecated-on-api29)
+
+- [Is downloadOnly synchronous or asynchronous in Android Glide?](https://stackoverflow.com/questions/48044740/is-downloadonly-synchronous-or-asynchronous-in-android-glide)
+
+- [Preload multiple images with Glide](https://stackoverflow.com/questions/37964187/preload-multiple-images-with-glide)
