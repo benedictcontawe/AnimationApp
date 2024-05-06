@@ -17,3 +17,7 @@
 - [Is downloadOnly synchronous or asynchronous in Android Glide?](https://stackoverflow.com/questions/48044740/is-downloadonly-synchronous-or-asynchronous-in-android-glide)
 
 - [Preload multiple images with Glide](https://stackoverflow.com/questions/37964187/preload-multiple-images-with-glide)
+
+- [The best way to load the image using Glide and cache strategy in Android](https://medium.com/@SmdNayan/the-best-way-to-load-the-image-using-glide-and-cache-strategy-in-android-3032e6ef0c78)
+
+- [Difference DiskCacheStrategy in Glide v4](https://stackoverflow.com/questions/46349657/difference-diskcachestrategy-in-glide-v4)
