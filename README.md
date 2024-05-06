@@ -1,6 +1,6 @@
 # AnimationApp
 
-// - []()
+<!-- - []() -->
 
 - [Splash screens](https://developer.android.com/guide/topics/ui/splash-screen)
 
