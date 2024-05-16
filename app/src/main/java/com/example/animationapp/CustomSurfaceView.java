@@ -83,7 +83,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         terrainTrail = new Terrain(getResources(), screenX, screenY).setSpawnX(screenX).build();
         //endregion
         //region Initialize Drops
-        drops = new ArrayList<>();
+        drops = new ArrayList<DropParticle>();
         for (int index = 0; index < 11; index++) {
             final DropParticle drop = new DropParticle(getResources(), screenRatioX, screenRatioY)
                     .setSpawnX(getRandomInt(0, screenX))
@@ -94,14 +94,22 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         }
         //endregion
         //region Initialize Diamonds
-        diamonds = new ArrayList<>();
-        for (int index = 0; index < 13; index++) {
-            final DiamondCollectible diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
+        diamonds = new ArrayList<DiamondCollectible>();
+        for (int index = 0; index < 19; index++) {
+            boolean isValid = false;
+            DiamondCollectible diamond;
+            do {
+                diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
                     .setSpawnX(getRandomInt(0, screenX))
                     .setSpawnY(-13)
                     .setSpawnDelay(getRandomInt(0, 30))
                     .build();
-            diamonds.add(index, diamond);
+                isValid = isPositionValid(diamond, diamonds);
+                Log.d(TAG, "checking diamond position valid");
+            } while (!isValid);
+            if (isValid)
+                diamonds.add(index, diamond);
+            Log.d(TAG, index + " new diamond added!");
         }
         //endregion
         setFocusable(true);
@@ -109,6 +117,15 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
 
     private int getRandomInt(int minimum, int maximum) {
         return random.nextInt((maximum - minimum) + 1) + minimum;
+    }
+
+    private boolean isPositionValid(DiamondCollectible newDiamond, List<DiamondCollectible> existingDiamonds) {
+        for (DiamondCollectible existingDiamond : existingDiamonds) {
+            final Rect newCollisionShape = new Rect(newDiamond.positionX, newDiamond.spawnDelay, newDiamond.positionX + newDiamond.width, newDiamond.spawnDelay + newDiamond.height);
+            if (existingDiamond.onTriggerCollide(newCollisionShape, existingDiamond.spawnDelay))
+                return false;
+        }
+        return true;
     }
 
     @Override

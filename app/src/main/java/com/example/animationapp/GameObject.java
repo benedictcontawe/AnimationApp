@@ -23,7 +23,7 @@ public class GameObject {
     }
 
     protected Bitmap getBitmap(Resources resources, int drawableRes) {
-        Drawable drawable = resources.getDrawable(drawableRes);
+        Drawable drawable = resources.getDrawable(drawableRes); //ResourcesCompat.getDrawable(resources, drawableRes, theme);
         Canvas canvas = new Canvas();
         Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         canvas.setBitmap(bitmap);
@@ -34,5 +34,9 @@ public class GameObject {
 
     protected Rect getCollisionShape () {
         return new Rect(positionX, positionY, positionX + width, positionY + height);
+    }
+
+    protected Rect getCollisionShape (int delay) {
+        return new Rect(positionX, delay, positionX + width, delay + height);
     }
 }

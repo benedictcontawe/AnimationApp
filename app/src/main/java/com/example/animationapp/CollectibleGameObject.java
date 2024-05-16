@@ -15,4 +15,8 @@ public class CollectibleGameObject extends GameObject {
             isCollected = true;
         }
     }
+
+    protected boolean onTriggerCollide(Rect boxCollider2D, int delay) {
+        return Rect.intersects(boxCollider2D, getCollisionShape(delay));
+    }
 }
