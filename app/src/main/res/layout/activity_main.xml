@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:button="@drawable/circular_checkbox"
-        tools:checked="true"
+        tools:checked="false"
         android:paddingStart="5dp"
         android:paddingLeft="5dp"
         tools:text="[Text]"
