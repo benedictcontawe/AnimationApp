@@ -1,4 +1,4 @@
-package com.example.animationapp;
+package com.app.animationapp;
 
 import android.content.Context;
 import android.graphics.Insets;
@@ -6,13 +6,6 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -21,6 +14,10 @@ import android.view.ViewGroup;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.WindowMetrics;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 public class SurfaceFragment extends Fragment {
 

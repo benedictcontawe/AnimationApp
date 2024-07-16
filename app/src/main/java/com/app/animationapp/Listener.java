@@ -1,4 +1,4 @@
-package com.example.animationapp;
+package com.app.animationapp;
 
 public interface Listener {
     public void onCloseGame();

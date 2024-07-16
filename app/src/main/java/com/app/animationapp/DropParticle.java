@@ -1,13 +1,13 @@
-package com.example.animationapp;
+package com.app.animationapp;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-public class DiamondCollectible extends CollectibleGameObject {
+public class DropParticle extends GameObject {
 
-    public DiamondCollectible(Resources resources, float screenRatioX, float screenRatioY) {
+    public DropParticle(Resources resources, float screenRatioX, float screenRatioY) {
         super();
-        bitmap = getBitmap(resources, R.drawable.icon_diamond);
+        bitmap = getBitmap(resources, R.drawable.icon_water_drop);
 
         width = bitmap.getWidth();
         height = bitmap.getHeight();
@@ -18,17 +18,17 @@ public class DiamondCollectible extends CollectibleGameObject {
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
     }
 
-    public DiamondCollectible setSpawnX(int spawnX) {
+    public DropParticle setSpawnX(int spawnX) {
         this.positionX = spawnX;
         return this;
     }
 
-    public DiamondCollectible setSpawnY(int spawnY) {
+    public DropParticle setSpawnY(int spawnY) {
         this.positionY = spawnY;
         return this;
     }
 
-    public DiamondCollectible setSpawnDelay(int spawnDelay) {
+    public DropParticle setSpawnDelay(int spawnDelay) {
         this.spawnDelay = spawnDelay;
         return this;
     }
@@ -43,7 +43,7 @@ public class DiamondCollectible extends CollectibleGameObject {
         return spawnDelay <= 0;
     }
 
-    public DiamondCollectible build() {
+    public DropParticle build() {
         return this;
     }
 }

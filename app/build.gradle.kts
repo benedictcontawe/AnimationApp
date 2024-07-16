@@ -1,14 +1,14 @@
 plugins {
-    alias(libs.plugins.androidApplication)
+    alias(libs.plugins.android.application)
 }
 
 android {
-    namespace = "com.example.animationapp"
+    namespace = "com.app.animationapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.animationapp"
-        minSdk = 16
+        applicationId = "com.app.animationapp"
+        minSdk = 21
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -32,17 +32,12 @@ android {
 }
 
 dependencies {
-    //region Google
-    implementation(libs.material)
-    //endregion
-    //region Android X
+
     implementation(libs.appcompat)
+    implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    //endregion
-    //region Android Unit Test and U.I. Test Library
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
-    //endregion
 }

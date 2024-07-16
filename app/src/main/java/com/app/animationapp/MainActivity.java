@@ -1,4 +1,4 @@
-package com.example.animationapp;
+package com.app.animationapp;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -50,9 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void addToBackStackFragment(int containerViewId, Fragment fragment) {
         if (getSupportFragmentManager().findFragmentByTag(fragment.getClass().getSimpleName()) == null)
             getSupportFragmentManager().beginTransaction()
-                    .add(containerViewId, fragment, fragment.getClass().getSimpleName())
-                    .addToBackStack(fragment.getClass().getSimpleName())
-                    .commit();
+            .add(containerViewId, fragment, fragment.getClass().getSimpleName())
+            .addToBackStack(fragment.getClass().getSimpleName())
+            .commit();
     }
 
     protected void removeFragment(String tag) {

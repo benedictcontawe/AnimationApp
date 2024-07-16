@@ -1,4 +1,4 @@
-package com.example.animationapp;
+package com.app.animationapp;
 
 import android.content.Context;
 import android.graphics.Canvas;
