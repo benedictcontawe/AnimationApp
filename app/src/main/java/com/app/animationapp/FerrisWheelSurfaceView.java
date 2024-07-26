@@ -78,8 +78,6 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         thread = new CustomThread(this, surfaceHolder);
         //region Initialize Wheel
         snow = new SnowFlakesParticle(getResources(), screenRatioX, screenRatioY)
-            //.setSpawnX(0)
-            //.setSpawnY(0)
             .setSpawnCenterX(screenX / 2)
             .setSpawnCenterY(screenY / 2)
             .build();
@@ -157,10 +155,11 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     public void draw(Canvas canvas) {
         super.draw(canvas);
         Log.d(TAG,"draw");
-        //canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
-        canvas.drawColor(Color.BLACK);
-        //canvas.rotate(angle, screenX/2, screenY/2);
+        canvas.drawColor(Color.BLACK); //canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+        int saveCount = canvas.save();
+        canvas.rotate(angle, snow.positionX + (snow.getBitmap().getWidth() / 2), snow.positionY + (snow.getBitmap().getHeight() / 2)); //canvas.rotate(angle, screenX/2, screenY/2);
         canvas.drawBitmap(snow.getBitmap(), snow.positionX, snow.positionY, paint);
+        canvas.restoreToCount(saveCount);
         for (CircleParticle circle : circles) {
             canvas.drawBitmap(circle.getBitmap(), circle.positionX, circle.positionY, paint);
         }
