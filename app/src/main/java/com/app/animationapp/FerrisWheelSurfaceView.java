@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
+import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -20,17 +21,16 @@ import java.util.Random;
 public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
 
     public static String TAG = FerrisWheelSurfaceView.class.getSimpleName();
-    public static FerrisWheelSurfaceView newInstance(Context context, int screenX, int screenY, Listener listener) {
-        return new FerrisWheelSurfaceView(context, screenX, screenY, listener);
+    public static FerrisWheelSurfaceView newInstance(Context context, int screenX, int screenY) {
+        return new FerrisWheelSurfaceView(context, screenX, screenY);
     }
     private CustomThread thread;
-    private Listener listener;
     private int screenX, screenY;
     private float screenRatioX, screenRatioY;
     private Paint paint;
-    private Random random;
     private SnowFlakesParticle snow;
     private List<CircleParticle> circles;
+    private List<PointF> initialCirclePositions;
     private float angle = 0;
 
     public FerrisWheelSurfaceView(Context context) {
@@ -45,83 +45,60 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         super(context, attributeSet, defStyle);
     }
 
-    public FerrisWheelSurfaceView(Context context, int screenX, int screenY, Listener listener) {
+    public FerrisWheelSurfaceView(Context context, int screenX, int screenY) {
         super(context);
         Log.d(TAG,"Constructor");
-        initialize(screenX, screenY, listener);
+        initialize(screenX, screenY);
     }
 
-    public FerrisWheelSurfaceView(Context context , AttributeSet attributeSet, int screenX, int screenY, Listener listener) {
+    public FerrisWheelSurfaceView(Context context , AttributeSet attributeSet, int screenX, int screenY) {
         super(context, attributeSet);
         Log.d(TAG,"Constructor");
-        initialize(screenX, screenY, listener);
+        initialize(screenX, screenY);
     }
 
-    public FerrisWheelSurfaceView(Context context, AttributeSet attributeSet, int defStyle, int screenX, int screenY, Listener listener) {
+    public FerrisWheelSurfaceView(Context context, AttributeSet attributeSet, int defStyle, int screenX, int screenY) {
         super(context, attributeSet, defStyle);
         Log.d(TAG,"Constructor");
-        initialize(screenX, screenY, listener);
+        initialize(screenX, screenY);
     }
 
-    private void initialize(int screenX, int screenY, Listener listener) {
+    private void initialize(int screenX, int screenY) {
         setZOrderOnTop(true);
         this.screenX = screenX;
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
-        this.listener = listener;
         paint = new Paint();
-        random = new Random();
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
         thread = new CustomThread(this, surfaceHolder);
         //region Initialize Wheel
+        float centerX = (float) screenX / 2;
+        float centerY = (float) screenY / 2;
         snow = new SnowFlakesParticle(getResources(), screenRatioX, screenRatioY)
-            .setSpawnCenterX(screenX / 2)
-            .setSpawnCenterY(screenY / 2)
+            .setSpawnCenterX((int) centerX)
+            .setSpawnCenterY((int) centerY)
             .build();
-        circles = new ArrayList<CircleParticle>();
-        final CircleParticle north = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX(screenX / 2)
-                .setSpawnCenterY((screenY / 2) - (screenY / 13))
+        initialCirclePositions = new ArrayList<>();
+        circles = new ArrayList<>();
+        float radius = (float) screenY / 5;
+        initialCirclePositions.add(new PointF(centerX, centerY - radius));
+        initialCirclePositions.add(new PointF(centerX + radius * (float) Math.cos(Math.toRadians(45)), centerY - radius * (float) Math.sin(Math.toRadians(45))));
+        initialCirclePositions.add(new PointF(centerX + radius, centerY));
+        initialCirclePositions.add(new PointF(centerX + radius * (float) Math.cos(Math.toRadians(45)), centerY + radius * (float) Math.sin(Math.toRadians(45))));
+        initialCirclePositions.add(new PointF(centerX, centerY + radius));
+        initialCirclePositions.add(new PointF(centerX - radius * (float) Math.cos(Math.toRadians(45)), centerY + radius * (float) Math.sin(Math.toRadians(45))));
+        initialCirclePositions.add(new PointF(centerX - radius, centerY));
+        initialCirclePositions.add(new PointF(centerX - radius * (float) Math.cos(Math.toRadians(45)), centerY - radius * (float) Math.sin(Math.toRadians(45))));
+        for (PointF position : initialCirclePositions) {
+            CircleParticle circle = new CircleParticle(getResources(), screenRatioX, screenRatioY)
+                .setSpawnCenterX((int) position.x)
+                .setSpawnCenterY((int) position.y)
                 .build();
-        circles.add(north);
-        final CircleParticle northEast = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) + (screenX / 5))
-                .setSpawnCenterY((screenY / 2) - (screenY / 15))
-                .build();
-        circles.add(northEast);
-        final CircleParticle east = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) + (screenX / 3))
-                .setSpawnCenterY(screenY / 2)
-                .build();
-        circles.add(east);
-        final CircleParticle southEast = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) + (screenX / 5))
-                .setSpawnCenterY((screenY / 2) + (screenY / 13))
-                .build();
-        circles.add(southEast);
-        final CircleParticle south = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX(screenX / 2)
-                .setSpawnCenterY((screenY / 2) + (screenY / 13))
-                .build();
-        circles.add(south);
-        final CircleParticle southWest = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) - (screenX / 5))
-                .setSpawnCenterY((screenY / 2) + (screenY / 15))
-                .build();
-        circles.add(southWest);
-        final CircleParticle west = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) - (screenX / 3))
-                .setSpawnCenterY(screenY / 2)
-                .build();
-        circles.add(west);
-        final CircleParticle northWest = new CircleParticle(getResources(), screenRatioX, screenRatioY)
-                .setSpawnCenterX((screenX / 2) - (screenX / 5))
-                .setSpawnCenterY((screenY / 2) - (screenY / 15))
-                .build();
-        circles.add(northWest);
+            circles.add(circle);
+        }
         //endregion
         setFocusable(true);
     }
@@ -138,8 +115,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
 
     @Override
     public void surfaceChanged(@NonNull SurfaceHolder holder, int format, int width, int height) {
-        //snow.positionX = height / 2;
-        //snow.positionY = height / 2;
+
     }
 
     @Override
@@ -149,6 +125,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         for (CircleParticle circle : circles) {
             circle.updateBitMap(getResources());
         }
+        //TODO: Orbit Rotation Animation for CircleParticles
     }
 
     @Override
@@ -176,11 +153,9 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
                 for (CircleParticle circle : circles) {
                     circle.onTriggerCollide(touchBoxCollider2D);
                 }
-                //if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_DOWN Left Screen");
                 return true;
             case MotionEvent.ACTION_MOVE:
                 Log.d(TAG,"onTouchEvent ACTION_MOVE x " + event.getX() + " y " + event.getY() + " pointer count" + event.getPointerCount());
-                //if (event.getX() < screenX / 2) Log.d(TAG,"onTouchEvent ACTION_MOVE Left Screen");
                 return true;
             case MotionEvent.ACTION_UP:
                 return true;

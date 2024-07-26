@@ -46,7 +46,7 @@ public class SurfaceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView");
         rainDiamondSurfaceView = RainDiamondSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
-        //ferrisWheelSurfaceView = FerrisWheelSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
+        //ferrisWheelSurfaceView = FerrisWheelSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
         return rainDiamondSurfaceView;
     }
 
