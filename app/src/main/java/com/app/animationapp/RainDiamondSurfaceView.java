@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
+public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
 
-    public static String TAG = CustomSurfaceView.class.getSimpleName();
-    public static CustomSurfaceView newInstance(Context context, int screenX, int screenY, Listener listener) {
-        return new CustomSurfaceView(context, screenX, screenY, listener);
+    public static String TAG = RainDiamondSurfaceView.class.getSimpleName();
+    public static RainDiamondSurfaceView newInstance(Context context, int screenX, int screenY, Listener listener) {
+        return new RainDiamondSurfaceView(context, screenX, screenY, listener);
     }
     private CustomThread thread;
     private Listener listener;
@@ -35,31 +35,31 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
     private List<DropParticle> drops;
     private List<DiamondCollectible> diamonds;
 
-    public CustomSurfaceView(Context context) {
+    public RainDiamondSurfaceView(Context context) {
         super(context);;
     }
 
-    public CustomSurfaceView(Context context , AttributeSet attributeSet) {
+    public RainDiamondSurfaceView(Context context , AttributeSet attributeSet) {
         super(context, attributeSet);
     }
 
-    public CustomSurfaceView(Context context, AttributeSet attributeSet, int defStyle) {
+    public RainDiamondSurfaceView(Context context, AttributeSet attributeSet, int defStyle) {
         super(context, attributeSet, defStyle);
     }
 
-    public CustomSurfaceView(Context context, int screenX, int screenY, Listener listener) {
+    public RainDiamondSurfaceView(Context context, int screenX, int screenY, Listener listener) {
         super(context);
         Log.d(TAG,"Constructor");
         initialize(screenX, screenY, listener);
     }
 
-    public CustomSurfaceView(Context context , AttributeSet attributeSet, int screenX, int screenY, Listener listener) {
+    public RainDiamondSurfaceView(Context context , AttributeSet attributeSet, int screenX, int screenY, Listener listener) {
         super(context, attributeSet);
         Log.d(TAG,"Constructor");
         initialize(screenX, screenY, listener);
     }
 
-    public CustomSurfaceView(Context context, AttributeSet attributeSet, int defStyle, int screenX, int screenY, Listener listener) {
+    public RainDiamondSurfaceView(Context context, AttributeSet attributeSet, int defStyle, int screenX, int screenY, Listener listener) {
         super(context, attributeSet, defStyle);
         Log.d(TAG,"Constructor");
         initialize(screenX, screenY, listener);
@@ -96,18 +96,18 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         //region Initialize Diamonds
         diamonds = new ArrayList<DiamondCollectible>();
         for (int index = 0; index < 19; index++) {
-            boolean isValid = false;
+            //boolean isValid = false;
             DiamondCollectible diamond;
-            do {
+            //do {
                 diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
                     .setSpawnX(getRandomInt(0, screenX))
                     .setSpawnY(-13)
                     .setSpawnDelay(getRandomInt(0, 30))
                     .build();
-                isValid = isPositionValid(diamond, diamonds);
+                //isValid = isPositionValid(diamond, diamonds);
                 Log.d(TAG, "checking diamond position valid");
-            } while (!isValid);
-            if (isValid)
+            //} while (!isValid);
+            //if (isValid)
                 diamonds.add(index, diamond);
             Log.d(TAG, index + " new diamond added!");
         }
@@ -145,6 +145,7 @@ public class CustomSurfaceView extends SurfaceView implements SurfaceHolder.Call
         Log.d(TAG,"surfaceChanged");
     }
 
+    @Override
     public void update() {
         Log.d(TAG,"update");
         //region Update Terrain

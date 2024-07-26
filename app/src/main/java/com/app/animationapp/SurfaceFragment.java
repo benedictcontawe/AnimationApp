@@ -28,7 +28,8 @@ public class SurfaceFragment extends Fragment {
         return fragment;
     }
 
-    private CustomSurfaceView customSurfaceView;
+    private RainDiamondSurfaceView rainDiamondSurfaceView;
+    private FerrisWheelSurfaceView ferrisWheelSurfaceView;
     private Listener listener;
 
     public SurfaceFragment() {
@@ -44,8 +45,9 @@ public class SurfaceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG,"onCreateView");
-        customSurfaceView = CustomSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
-        return customSurfaceView;
+        rainDiamondSurfaceView = RainDiamondSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
+        //ferrisWheelSurfaceView = FerrisWheelSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
+        return rainDiamondSurfaceView;
     }
 
     @Override

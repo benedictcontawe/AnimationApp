@@ -6,12 +6,12 @@ import android.view.SurfaceHolder;
 
 public class CustomThread extends Thread {
     public static String TAG = CustomThread.class.getSimpleName();
-    private final CustomSurfaceView customSurfaceView;
+    private final BaseSurfaceView baseSurfaceView;
     private final SurfaceHolder surfaceHolder;
 
     private boolean isRunning;
-    public CustomThread(CustomSurfaceView customSurfaceView, SurfaceHolder surfaceHolder) {
-        this.customSurfaceView = customSurfaceView;
+    public CustomThread(BaseSurfaceView baseSurfaceView, SurfaceHolder surfaceHolder) {
+        this.baseSurfaceView = baseSurfaceView;
         this.surfaceHolder = surfaceHolder;
     }
 
@@ -19,10 +19,10 @@ public class CustomThread extends Thread {
     public void run() {
         Log.d(TAG,"run");
         while (isRunning) {
-            customSurfaceView.update();
+            baseSurfaceView.update();
             if (surfaceHolder.getSurface().isValid()) {
                 final Canvas canvas = surfaceHolder.lockCanvas();
-                customSurfaceView.draw(canvas);
+                baseSurfaceView.draw(canvas);
                 surfaceHolder.unlockCanvasAndPost(canvas);
             }
             sleep();
