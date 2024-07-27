@@ -16,7 +16,6 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
 
@@ -32,6 +31,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     private List<CircleParticle> circles;
     private List<PointF> initialCirclePositions;
     private float angle = 0;
+    private float angleOrbit = 0;
 
     public FerrisWheelSurfaceView(Context context) {
         super(context);;
@@ -122,10 +122,26 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     public void update() {
         Log.d(TAG, "update");
         angle++;
+        angleOrbit--;
         for (CircleParticle circle : circles) {
             circle.updateBitMap(getResources());
         }
-        //TODO: Orbit Rotation Animation for CircleParticles
+        float centerX = screenX / 2;
+        float centerY = screenY / 2;
+
+        for (int i = 0; i < circles.size(); i++) {
+            PointF initialPosition = initialCirclePositions.get(i);
+            float dx = initialPosition.x - centerX;
+            float dy = initialPosition.y - centerY;
+
+            float newX = centerX + (float) (dx * Math.cos(Math.toRadians(angleOrbit)) - dy * Math.sin(Math.toRadians(angleOrbit)));
+            float newY = centerY + (float) (dx * Math.sin(Math.toRadians(angleOrbit)) + dy * Math.cos(Math.toRadians(angleOrbit)));
+
+            CircleParticle circle = circles.get(i);
+            circle.setSpawnCenterX((int) newX);
+            circle.setSpawnCenterY((int) newY);
+            circle.updateBitMap(getResources());
+        }
     }
 
     @Override
