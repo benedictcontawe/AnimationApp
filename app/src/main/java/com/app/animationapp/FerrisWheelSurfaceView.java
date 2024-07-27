@@ -34,7 +34,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     private float angleOrbit = 0;
 
     public FerrisWheelSurfaceView(Context context) {
-        super(context);;
+        super(context);
     }
 
     public FerrisWheelSurfaceView(Context context , AttributeSet attributeSet) {
@@ -123,21 +123,18 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         Log.d(TAG, "update");
         angle++;
         angleOrbit--;
-        for (CircleParticle circle : circles) {
-            circle.updateBitMap(getResources());
-        }
         float centerX = screenX / 2;
         float centerY = screenY / 2;
 
-        for (int i = 0; i < circles.size(); i++) {
-            PointF initialPosition = initialCirclePositions.get(i);
+        for (int index = 0; index < circles.size(); index++) {
+            PointF initialPosition = initialCirclePositions.get(index);
             float dx = initialPosition.x - centerX;
             float dy = initialPosition.y - centerY;
 
             float newX = centerX + (float) (dx * Math.cos(Math.toRadians(angleOrbit)) - dy * Math.sin(Math.toRadians(angleOrbit)));
             float newY = centerY + (float) (dx * Math.sin(Math.toRadians(angleOrbit)) + dy * Math.cos(Math.toRadians(angleOrbit)));
 
-            CircleParticle circle = circles.get(i);
+            CircleParticle circle = circles.get(index);
             circle.setSpawnCenterX((int) newX);
             circle.setSpawnCenterY((int) newY);
             circle.updateBitMap(getResources());
