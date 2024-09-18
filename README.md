@@ -21,3 +21,5 @@
 - [The best way to load the image using Glide and cache strategy in Android](https://medium.com/@SmdNayan/the-best-way-to-load-the-image-using-glide-and-cache-strategy-in-android-3032e6ef0c78)
 
 - [Difference DiskCacheStrategy in Glide v4](https://stackoverflow.com/questions/46349657/difference-diskcachestrategy-in-glide-v4)
+
+- [how to change a drawableLeft icon size on a button?](https://stackoverflow.com/questions/40998914/how-to-change-a-drawableleft-icon-size-on-a-button)
