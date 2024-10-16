@@ -1,6 +1,6 @@
 package com.app.animationapp;
 
-import android.graphics.Rect;
+import android.graphics.RectF;
 
 public class ToggleGameObject extends GameObject {
     protected boolean isToggled;
@@ -10,15 +10,15 @@ public class ToggleGameObject extends GameObject {
         isToggled = false;
     }
 
-    protected void onTriggerCollide(Rect boxCollider2D) {
-        if(Rect.intersects(boxCollider2D, getCollisionShape()) && isToggled == false) {
+    protected void onTriggerCollide(RectF boxCollider2D) {
+        if(RectF.intersects(boxCollider2D, getCollisionShape()) && isToggled == false) {
             isToggled = true;
-        } else if (Rect.intersects(boxCollider2D, getCollisionShape()) && isToggled == true) {
+        } else if (RectF.intersects(boxCollider2D, getCollisionShape()) && isToggled == true) {
             isToggled = false;
         }
     }
 
-    protected boolean onTriggerCollide(Rect boxCollider2D, int delay) {
-        return Rect.intersects(boxCollider2D, getCollisionShape(delay));
+    protected boolean onTriggerCollide(RectF boxCollider2D, int delay) {
+        return RectF.intersects(boxCollider2D, getCollisionShape(delay));
     }
 }

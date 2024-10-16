@@ -6,7 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -162,7 +162,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
                 Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY() + " pointer count" + event.getPointerCount());
                 int x = Math.round(event.getRawX());
                 int y = Math.round(event.getRawY());
-                final Rect touchBoxCollider2D = new Rect(x - 3, y - 3, x + 3, y + 3);
+                final RectF touchBoxCollider2D = new RectF(x - 3, y - 3, x + 3, y + 3);
                 for (CircleParticle circle : circles) {
                     circle.onTriggerCollide(touchBoxCollider2D);
                 }

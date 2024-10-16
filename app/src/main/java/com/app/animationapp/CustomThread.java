@@ -21,9 +21,17 @@ public class CustomThread extends Thread {
         while (isRunning) {
             baseSurfaceView.update();
             if (surfaceHolder.getSurface().isValid()) {
-                final Canvas canvas = surfaceHolder.lockCanvas();
-                baseSurfaceView.draw(canvas);
-                surfaceHolder.unlockCanvasAndPost(canvas);
+                try {
+                    final Canvas canvas = surfaceHolder.lockCanvas();
+                    baseSurfaceView.draw(canvas);
+                    surfaceHolder.unlockCanvasAndPost(canvas);
+                } catch (IllegalArgumentException exception) {
+                    Log.e(TAG,"IllegalArgumentException " + exception);
+                } catch (IllegalMonitorStateException exception) {
+                    Log.e(TAG,"IllegalMonitorStateException " + exception);
+                } catch (IllegalStateException exception) {
+                    Log.e(TAG, "IllegalStateException " + exception);
+                }
             }
             sleep();
         }

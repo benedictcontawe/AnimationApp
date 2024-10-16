@@ -6,12 +6,11 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
 
@@ -121,7 +120,7 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
 
     private boolean isPositionValid(DiamondCollectible newDiamond, List<DiamondCollectible> existingDiamonds) {
         for (DiamondCollectible existingDiamond : existingDiamonds) {
-            final Rect newCollisionShape = new Rect(newDiamond.positionX, newDiamond.spawnDelay, newDiamond.positionX + newDiamond.width, newDiamond.spawnDelay + newDiamond.height);
+            final RectF newCollisionShape = new RectF(newDiamond.positionX, newDiamond.spawnDelay, newDiamond.positionX + newDiamond.width, newDiamond.spawnDelay + newDiamond.height);
             if (existingDiamond.onTriggerCollide(newCollisionShape, existingDiamond.spawnDelay))
                 return false;
         }
@@ -223,7 +222,7 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
                 Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY() + " pointer count" + event.getPointerCount());
                 int x = Math.round(event.getRawX());
                 int y = Math.round(event.getRawY());
-                final Rect touchBoxCollider2D = new Rect(x - 3, y - 3, x + 3, y + 3);
+                final RectF touchBoxCollider2D = new RectF(x - 3, y - 3, x + 3, y + 3);
                 for (DiamondCollectible diamond : diamonds) {
                     diamond.onTriggerCollide(touchBoxCollider2D);
                 }

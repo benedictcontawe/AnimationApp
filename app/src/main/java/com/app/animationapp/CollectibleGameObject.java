@@ -1,6 +1,6 @@
 package com.app.animationapp;
 
-import android.graphics.Rect;
+import android.graphics.RectF;
 
 public class CollectibleGameObject extends GameObject {
     protected boolean isCollected;
@@ -10,13 +10,13 @@ public class CollectibleGameObject extends GameObject {
         isCollected = false;
     }
 
-    protected void onTriggerCollide(Rect boxCollider2D) {
-        if(Rect.intersects(boxCollider2D, getCollisionShape()) && isCollected == false) {
+    protected void onTriggerCollide(RectF boxCollider2D) {
+        if(RectF.intersects(boxCollider2D, getCollisionShape()) && isCollected == false) {
             isCollected = true;
         }
     }
 
-    protected boolean onTriggerCollide(Rect boxCollider2D, int delay) {
-        return Rect.intersects(boxCollider2D, getCollisionShape(delay));
+    public boolean onTriggerCollide(RectF boxCollider2D, int delay) {
+        return RectF.intersects(boxCollider2D, getCollisionShape(delay));
     }
 }
