@@ -30,6 +30,7 @@ public class SurfaceFragment extends Fragment {
 
     private RainDiamondSurfaceView rainDiamondSurfaceView;
     private FerrisWheelSurfaceView ferrisWheelSurfaceView;
+    private PegBallSurfaceView pegBallSurfaceView;
     private Listener listener;
 
     public SurfaceFragment() {
@@ -47,6 +48,7 @@ public class SurfaceFragment extends Fragment {
         Log.d(TAG,"onCreateView");
         rainDiamondSurfaceView = RainDiamondSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
         ferrisWheelSurfaceView = FerrisWheelSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
+        pegBallSurfaceView = PegBallSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
         return rainDiamondSurfaceView;
         //return ferrisWheelSurfaceView;
     }

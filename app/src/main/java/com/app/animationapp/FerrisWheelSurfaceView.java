@@ -24,9 +24,6 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         return new FerrisWheelSurfaceView(context, screenX, screenY);
     }
     private CustomThread thread;
-    private int screenX, screenY;
-    private float screenRatioX, screenRatioY;
-    private Paint paint;
     private SnowFlakesParticle snow;
     private List<CircleParticle> circles;
     private List<PointF> initialCirclePositions;
@@ -69,7 +66,6 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         this.screenY = screenY;
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
-        paint = new Paint();
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);

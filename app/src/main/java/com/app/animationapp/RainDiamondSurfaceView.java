@@ -24,18 +24,14 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
     public static RainDiamondSurfaceView newInstance(Context context, int screenX, int screenY, Listener listener) {
         return new RainDiamondSurfaceView(context, screenX, screenY, listener);
     }
-    private CustomThread thread;
     private Listener listener;
-    private int screenX, screenY;
-    private float screenRatioX, screenRatioY;
-    private Paint paint;
     private Random random;
     private Terrain terrainLead, terrainTrail;
     private List<DropParticle> drops;
     private List<DiamondCollectible> diamonds;
 
     public RainDiamondSurfaceView(Context context) {
-        super(context);;
+        super(context);
     }
 
     public RainDiamondSurfaceView(Context context , AttributeSet attributeSet) {
@@ -71,7 +67,6 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
         this.listener = listener;
-        paint = new Paint();
         random = new Random();
         SurfaceHolder surfaceHolder = getHolder();
         surfaceHolder.addCallback(this);
