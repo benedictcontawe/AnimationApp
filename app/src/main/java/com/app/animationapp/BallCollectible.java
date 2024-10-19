@@ -47,6 +47,14 @@ public class BallCollectible extends CollectibleGameObject {
         return spawnDelay <= 0;
     }
 
+    public void updatePosition(float gravity) {
+        // Apply gravity
+        velocityY += gravity;
+        // Move the ball based on its velocity
+        positionX += velocityX;
+        positionY += velocityY;
+    }
+
     public int getRadius() {
         return Math.min(width, height) / 2;
     }
