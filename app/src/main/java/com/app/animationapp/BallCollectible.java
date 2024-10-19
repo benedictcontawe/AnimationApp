@@ -3,32 +3,39 @@ package com.app.animationapp;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-public class DropParticle extends GameObject {
+public class BallCollectible extends CollectibleGameObject{
+    public float velocityX, velocityY;
 
-    public DropParticle(Resources resources, float screenRatioX, float screenRatioY) {
+    public BallCollectible(Resources resources, float screenRatioX, float screenRatioY) {
         super();
-        bitmap = getBitmap(resources, R.drawable.icon_water_drop);
+        bitmap = getBitmap(resources, R.drawable.icon_ball);
 
         width = bitmap.getWidth();
         height = bitmap.getHeight();
 
+        width /= 3;
+        height /= 3;
+
         width = (int) (width * screenRatioX);
         height = (int) (height * screenRatioY);
+
+        this.velocityX = 0f;
+        this.velocityY = 0f;
 
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
     }
 
-    public DropParticle setSpawnX(float spawnX) {
+    public BallCollectible setSpawnX(int spawnX) {
         this.positionX = spawnX;
         return this;
     }
 
-    public DropParticle setSpawnY(float spawnY) {
+    public BallCollectible setSpawnY(int spawnY) {
         this.positionY = spawnY;
         return this;
     }
 
-    public DropParticle setSpawnDelay(int spawnDelay) {
+    public BallCollectible setSpawnDelay(int spawnDelay) {
         this.spawnDelay = spawnDelay;
         return this;
     }
@@ -43,7 +50,11 @@ public class DropParticle extends GameObject {
         return spawnDelay <= 0;
     }
 
-    public DropParticle build() {
+    public int getRadius() {
+        return Math.min(width, height) / 2;
+    }
+
+    public BallCollectible build() {
         return this;
     }
 }

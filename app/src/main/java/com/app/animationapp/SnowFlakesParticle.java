@@ -18,23 +18,23 @@ public class SnowFlakesParticle extends GameObject {
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
     }
 
-    public SnowFlakesParticle setSpawnX(int spawnX) {
+    public SnowFlakesParticle setSpawnX(float spawnX) {
         this.positionX = spawnX;
         return this;
     }
 
-    public SnowFlakesParticle setSpawnCenterX(int spawnX) {
-        this.positionX = spawnX - ( width / 2);
+    public SnowFlakesParticle setSpawnCenterX(float spawnX) {
+        this.positionX = spawnX - ( width / 2f);
         return this;
     }
 
-    public SnowFlakesParticle setSpawnY(int spawnY) {
+    public SnowFlakesParticle setSpawnY(float spawnY) {
         this.positionY = spawnY;
         return this;
     }
 
-    public SnowFlakesParticle setSpawnCenterY(int spawnY) {
-        this.positionY = spawnY - (height / 2);
+    public SnowFlakesParticle setSpawnCenterY(float spawnY) {
+        this.positionY = spawnY - (height / 2f);
         return this;
     }
 

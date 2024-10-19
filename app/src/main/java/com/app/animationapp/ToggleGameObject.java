@@ -10,11 +10,15 @@ public class ToggleGameObject extends GameObject {
         isToggled = false;
     }
 
-    protected void onTriggerCollide(RectF boxCollider2D) {
+    protected boolean onTriggerCollide(RectF boxCollider2D) {
         if(RectF.intersects(boxCollider2D, getCollisionShape()) && isToggled == false) {
             isToggled = true;
+            return true;
         } else if (RectF.intersects(boxCollider2D, getCollisionShape()) && isToggled == true) {
             isToggled = false;
+            return true;
+        } else {
+            return false;
         }
     }
 

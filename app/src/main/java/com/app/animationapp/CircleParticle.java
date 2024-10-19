@@ -18,20 +18,30 @@ public class CircleParticle extends ToggleGameObject {
     }
 
     public void updateBitMap(Resources resources) {
-        if (isToggled)
+        if (isToggled && bitmap != getBitmap(resources, R.drawable.icon_circle)) {
             bitmap = getBitmap(resources, R.drawable.icon_circle);
-        else
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        } else if (isToggled == false && bitmap != getBitmap(resources, R.drawable.icon_incomplete_circle)) {
             bitmap = getBitmap(resources, R.drawable.icon_incomplete_circle);
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        }
+        /*
+        if (isToggled) {
+            bitmap = getBitmap(resources, R.drawable.icon_circle);
+        } else {
+            bitmap = getBitmap(resources, R.drawable.icon_incomplete_circle);
+        }
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+        */
     }
 
-    public CircleParticle setSpawnCenterX(int spawnX) {
-        this.positionX = spawnX - ( width / 2);
+    public CircleParticle setSpawnCenterX(float spawnX) {
+        this.positionX = spawnX - (width / 2f);
         return this;
     }
 
-    public CircleParticle setSpawnCenterY(int spawnY) {
-        this.positionY = spawnY - (height / 2);
+    public CircleParticle setSpawnCenterY(float spawnY) {
+        this.positionY = spawnY - (height / 2f);
         return this;
     }
 

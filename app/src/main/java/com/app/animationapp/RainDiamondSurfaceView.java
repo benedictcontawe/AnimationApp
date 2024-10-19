@@ -3,7 +3,6 @@ package com.app.animationapp;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.RectF;
@@ -91,7 +90,7 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
         diamonds = new ArrayList<DiamondCollectible>();
         for (int index = 0; index < 19; index++) {
             //boolean isValid = false;
-            DiamondCollectible diamond;
+            final DiamondCollectible diamond;
             //do {
                 diamond = new DiamondCollectible(getResources(), screenRatioX, screenRatioY)
                     .setSpawnX(getRandomInt(0, screenX))
@@ -126,10 +125,9 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated");
         if (thread.getState().equals(Thread.State.TERMINATED)) {
-            SurfaceHolder surfaceHolder = holder;
-            surfaceHolder.addCallback(this);
-            surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
-            thread = new CustomThread(this, surfaceHolder);
+            holder.addCallback(this);
+            holder.setFormat(PixelFormat.TRANSPARENT);
+            thread = new CustomThread(this, holder);
         }
         thread.onStart();
     }
@@ -143,8 +141,8 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
     public void update() {
         Log.d(TAG,"update");
         //region Update Terrain
-        terrainLead.positionX -= 10 * screenRatioX;
-        terrainTrail.positionX -= 10 * screenRatioX;
+        terrainLead.positionX -= 10f * screenRatioX;
+        terrainTrail.positionX -= 10f * screenRatioX;
         if (terrainLead.positionX + terrainLead.bitmap.getWidth() < 0) {
             terrainLead.positionX = screenX;
         }
@@ -153,26 +151,22 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
         }
         //endregion
         //region Update Drops
-        List<DropParticle> puddles = new ArrayList<>();
+        final List<DropParticle> puddles = new ArrayList<>();
         for (DropParticle drop : drops) {
             if (drop.positionY > screenY) puddles.add(drop);
-
-            if (drop.isSpawnDelayFinished()) {
-                drop.positionY += (int) (5 * screenRatioY);
-            } else {
-                drop.updateSpawnDelay(1);
-            }
+            if (drop.isSpawnDelayFinished()) drop.positionY += 5f * screenRatioY;
+            else drop.updateSpawnDelay(1);
         }
         for (DropParticle puddle : puddles) {
             drops.remove(puddle);
         }
         //endregion
         //region Update Diamonds
-        List<DiamondCollectible> stones = new ArrayList<>();
+        final List<DiamondCollectible> stones = new ArrayList<>();
         for (DiamondCollectible diamond : diamonds) {
             if (diamond.positionY > screenY || diamond.isCollected) stones.add(diamond);
             if (diamond.isSpawnDelayFinished()) {
-                diamond.positionY += (int) (5 * screenRatioY);
+                diamond.positionY += 5f * screenRatioY;
             } else {
                 diamond.updateSpawnDelay(1);
             }
@@ -215,8 +209,8 @@ public class RainDiamondSurfaceView extends BaseSurfaceView implements SurfaceHo
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY() + " pointer count" + event.getPointerCount());
-                int x = Math.round(event.getRawX());
-                int y = Math.round(event.getRawY());
+                final float x = event.getRawX();
+                final float y = event.getRawY();
                 final RectF touchBoxCollider2D = new RectF(x - 3, y - 3, x + 3, y + 3);
                 for (DiamondCollectible diamond : diamonds) {
                     diamond.onTriggerCollide(touchBoxCollider2D);

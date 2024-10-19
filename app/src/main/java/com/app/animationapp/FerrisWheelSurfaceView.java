@@ -3,7 +3,6 @@ package com.app.animationapp;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -16,6 +15,7 @@ import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
 
@@ -23,7 +23,6 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     public static FerrisWheelSurfaceView newInstance(Context context, int screenX, int screenY) {
         return new FerrisWheelSurfaceView(context, screenX, screenY);
     }
-    private CustomThread thread;
     private SnowFlakesParticle snow;
     private List<CircleParticle> circles;
     private List<PointF> initialCirclePositions;
@@ -71,11 +70,11 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
         thread = new CustomThread(this, surfaceHolder);
         //region Initialize Wheel
-        float centerX = (float) screenX / 2;
-        float centerY = (float) screenY / 2;
+        final float centerX = screenX / 2f;
+        final float centerY = screenY / 2f;
         snow = new SnowFlakesParticle(getResources(), screenRatioX, screenRatioY)
-            .setSpawnCenterX((int) centerX)
-            .setSpawnCenterY((int) centerY)
+            .setSpawnCenterX(centerX)
+            .setSpawnCenterY(centerY)
             .build();
         initialCirclePositions = new ArrayList<>();
         circles = new ArrayList<>();
@@ -119,20 +118,20 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
         Log.d(TAG, "update");
         angle++;
         angleOrbit--;
-        float centerX = screenX / 2;
-        float centerY = screenY / 2;
+        final float centerX = screenX / 2f;
+        final float centerY = screenY / 2f;
 
         for (int index = 0; index < circles.size(); index++) {
-            PointF initialPosition = initialCirclePositions.get(index);
-            float dx = initialPosition.x - centerX;
-            float dy = initialPosition.y - centerY;
+            final PointF initialPosition = initialCirclePositions.get(index);
+            final float dx = initialPosition.x - centerX;
+            final float dy = initialPosition.y - centerY;
 
-            float newX = centerX + (float) (dx * Math.cos(Math.toRadians(angleOrbit)) - dy * Math.sin(Math.toRadians(angleOrbit)));
-            float newY = centerY + (float) (dx * Math.sin(Math.toRadians(angleOrbit)) + dy * Math.cos(Math.toRadians(angleOrbit)));
+            final float newX = centerX + (float) (dx * Math.cos(Math.toRadians(angleOrbit)) - dy * Math.sin(Math.toRadians(angleOrbit)));
+            final float newY = centerY + (float) (dx * Math.sin(Math.toRadians(angleOrbit)) + dy * Math.cos(Math.toRadians(angleOrbit)));
 
-            CircleParticle circle = circles.get(index);
-            circle.setSpawnCenterX((int) newX);
-            circle.setSpawnCenterY((int) newY);
+            final CircleParticle circle = circles.get(index);
+            circle.setSpawnCenterX(newX);
+            circle.setSpawnCenterY(newY);
             circle.updateBitMap(getResources());
         }
     }
@@ -155,13 +154,17 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                Log.d(TAG,"onTouchEvent ACTION_DOWN x " + event.getRawX() + " y " + event.getRawY() + " pointer count" + event.getPointerCount());
-                int x = Math.round(event.getRawX());
-                int y = Math.round(event.getRawY());
-                final RectF touchBoxCollider2D = new RectF(x - 3, y - 3, x + 3, y + 3);
-                for (CircleParticle circle : circles) {
-                    circle.onTriggerCollide(touchBoxCollider2D);
-                }
+                Executors.newSingleThreadExecutor().submit(() ->{
+                    final float radius = 3f;
+                    final RectF touchBoxCollider2D = new RectF(event.getX() - radius, event.getY() - radius, event.getX() + radius, event.getY() + radius);
+                    for (int index = 0; index < circles.size(); index++) {
+                        final CircleParticle circle = circles.get(index);
+                        if (circle.onTriggerCollide(touchBoxCollider2D)) {
+                            circle.updateBitMap(getResources());
+                            break;
+                        }
+                    }
+                });
                 return true;
             case MotionEvent.ACTION_MOVE:
                 Log.d(TAG,"onTouchEvent ACTION_MOVE x " + event.getX() + " y " + event.getY() + " pointer count" + event.getPointerCount());

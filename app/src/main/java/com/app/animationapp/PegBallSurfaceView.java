@@ -11,12 +11,17 @@ import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
 
+import java.util.List;
+
 public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
 
     public static String TAG = PegBallSurfaceView.class.getSimpleName();
     public static PegBallSurfaceView newInstance(Context context, int screenX, int screenY) {
         return new PegBallSurfaceView(context, screenX, screenY);
     }
+    private List<BallCollectible> balls;
+    private List<PegParticle> pegs;
+
     public PegBallSurfaceView(Context context) {
         super(context);
     }
@@ -46,7 +51,8 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
         thread = new CustomThread(this, surfaceHolder);
         //region Peg Ball
-
+        initializeBalls(1);
+        initializePegs(1);
         //endregion
         setFocusable(true);
     }
@@ -55,12 +61,19 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d(TAG,"surfaceCreated");
         if (thread.getState().equals(Thread.State.TERMINATED)) {
-            SurfaceHolder surfaceHolder = holder;
-            surfaceHolder.addCallback(this);
-            surfaceHolder.setFormat(PixelFormat.TRANSPARENT);
-            thread = new CustomThread(this, surfaceHolder);
+            holder.addCallback(this);
+            holder.setFormat(PixelFormat.TRANSPARENT);
+            thread = new CustomThread(this, holder);
         }
         thread.onStart();
+    }
+
+    private void initializeBalls(int quantity) {
+        //TODO: On going
+    }
+
+    private void initializePegs(int row) {
+        //TODO: On going
     }
 
     @Override

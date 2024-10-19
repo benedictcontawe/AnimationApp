@@ -49,8 +49,9 @@ public class SurfaceFragment extends Fragment {
         rainDiamondSurfaceView = RainDiamondSurfaceView.newInstance(requireContext(), getWidth(), getHeight(), listener);
         ferrisWheelSurfaceView = FerrisWheelSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
         pegBallSurfaceView = PegBallSurfaceView.newInstance(requireContext(), getWidth(), getHeight());
-        return rainDiamondSurfaceView;
-        //return ferrisWheelSurfaceView;
+        //return rainDiamondSurfaceView;
+        return ferrisWheelSurfaceView;
+        //return pegBallSurfaceView;
     }
 
     @Override
