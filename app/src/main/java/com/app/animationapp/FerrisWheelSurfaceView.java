@@ -77,7 +77,7 @@ public class FerrisWheelSurfaceView extends BaseSurfaceView implements SurfaceHo
             .setSpawnCenterY(centerY)
             .build();
         initialCirclePositions = new ArrayList<>();
-        circles = new ArrayList<>();
+        circles = new ArrayList<CircleParticle>();
         float radius = (float) screenY / 5;
         initialCirclePositions.add(new PointF(centerX, centerY - radius));
         initialCirclePositions.add(new PointF(centerX + radius * (float) Math.cos(Math.toRadians(45)), centerY - radius * (float) Math.sin(Math.toRadians(45))));

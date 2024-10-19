@@ -11,11 +11,8 @@ public class PegParticle extends GameObject {
         width = bitmap.getWidth();
         height = bitmap.getHeight();
 
-        width /= 4;
-        height /= 4;
-
-        width = (int) (width * screenRatioX);
-        height = (int) (height * screenRatioY);
+        //width = (int) (width * screenRatioX);
+        //height = (int) (height * screenRatioY);
 
         bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
     }

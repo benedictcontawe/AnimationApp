@@ -2,15 +2,15 @@ package com.app.animationapp;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PixelFormat;
-import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
@@ -70,10 +70,25 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
 
     private void initializeBalls(int quantity) {
         //TODO: On going
+        balls = new ArrayList<BallCollectible>();
+        final float centerX = screenX / 2f;
+        final BallCollectible ball = new BallCollectible(getResources(), screenRatioX, screenRatioY)
+                .setSpawnX(centerX)
+                .setSpawnY(0)
+                .build();
+        balls.add(ball);
     }
 
     private void initializePegs(int row) {
         //TODO: On going
+        final float centerX = screenX / 2f;
+        final float centerY = screenY / 2f;
+        pegs = new ArrayList<PegParticle>();
+        final PegParticle peg = new PegParticle(getResources(), screenRatioX, screenRatioY)
+                .setSpawnCenterX(centerX)
+                .setSpawnCenterY(centerY)
+                .build();
+        pegs.add(peg);
     }
 
     @Override
@@ -84,13 +99,40 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     @Override
     public void update() {
         Log.d(TAG,"update");
+        final List<BallCollectible> drops = new ArrayList<BallCollectible>();
+        if(balls.isEmpty() == false) {
+            for (BallCollectible ball : balls) {
+                if (ball.positionY > screenY && ball.isCollected == false) {
+                    ball.isCollected = true;
+                    drops.add(ball);
+                }
+                if (ball.isSpawnDelayFinished()) {
+                    ball.positionY += 5f * screenRatioY;
+                } else {
+                    ball.updateSpawnDelay(1);
+                }
+            }
+            for (BallCollectible drop : drops)
+                if (drop.isCollected)
+                    balls.remove(drop);
+        }
     }
 
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
         Log.d(TAG,"draw");
-        canvas.drawColor(Color.WHITE, PorterDuff.Mode.CLEAR);
+        canvas.drawColor(ContextCompat.getColor(getContext(), R.color.white));
+        if(balls.isEmpty() == false) {
+            for (BallCollectible ball : balls) {
+                canvas.drawBitmap(ball.getBitmap(), ball.positionX, ball.positionY, paint);
+            }
+        }
+        if (pegs.isEmpty() == false) {
+            for (PegParticle peg : pegs) {
+                canvas.drawBitmap(peg.getBitmap(), peg.positionX, peg.positionY, paint);
+            }
+        }
     }
 
     @Override
