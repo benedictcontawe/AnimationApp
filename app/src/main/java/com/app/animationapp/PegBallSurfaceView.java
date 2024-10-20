@@ -74,11 +74,12 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         //TODO: On going
         balls = new ArrayList<BallCollectible>();
         final float centerX = screenX / 2f;
-        final ArrayList<Integer> ballSpawns = new ArrayList<Integer>(Arrays.asList(0, 3, 10, 13));
+        final ArrayList<Integer> ballSpawns = new ArrayList<Integer>(Arrays.asList(0, 5, 13, 20));
         for (Integer ballSpawn: ballSpawns) {
             final BallCollectible ball = new BallCollectible(getResources(), screenRatioX, screenRatioY)
                     .setSpawnX(centerX)
-                    .setSpawnY(ballSpawn)
+                    .setSpawnY(0)
+                    .setSpawnDelay(ballSpawn)
                     .build();
             balls.add(ball);
         }
@@ -91,13 +92,9 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         coordinates.add(new PointF(screenX * 0.25f, screenY / 2f));
         coordinates.add(new PointF(screenX * 0.75f, screenY / 2f));
         coordinates.add(new PointF(screenX * 0.10f, screenY * 0.75f));
-        coordinates.add(new PointF(screenX * 0.20f, screenY * 0.75f));
         coordinates.add(new PointF(screenX * 0.30f, screenY * 0.75f));
-        coordinates.add(new PointF(screenX * 0.40f, screenY * 0.75f));
         coordinates.add(new PointF(screenX * 0.50f, screenY * 0.75f));
-        coordinates.add(new PointF(screenX * 0.60f, screenY * 0.75f));
         coordinates.add(new PointF(screenX * 0.70f, screenY * 0.75f));
-        coordinates.add(new PointF(screenX * 0.80f, screenY * 0.75f));
         coordinates.add(new PointF(screenX * 0.90f, screenY * 0.75f));
         pegs = new ArrayList<PegParticle>();
         for (PointF coordinate : coordinates) {
@@ -127,7 +124,7 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
                 }
                 if (ball.isSpawnDelayFinished()) {
                     // Apply gravity to the ball
-                    ball.updatePosition(0.5f * screenRatioY); // Gravity factor
+                    ball.updatePosition(1.3f * screenRatioY); // Gravity factor
                     // Check for collisions with pegs
                     for (PegParticle peg : pegs) {
                         if (isColliding(ball, peg)) {
@@ -194,11 +191,15 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             float tempVelocityX = ball1.velocityX;
             float tempVelocityY = ball1.velocityY;
 
-            ball1.velocityX = ball2.velocityX;
-            ball1.velocityY = ball2.velocityY;
+            // Damping factor to reduce bounce height
+            float dampingFactor = 0.1f; // Adjust this value to make the bounce lower
 
-            ball2.velocityX = tempVelocityX;
-            ball2.velocityY = tempVelocityY;
+            // Reduce the bounce intensity by applying the damping factor
+            ball1.velocityX = ball2.velocityX * dampingFactor;
+            ball1.velocityY = ball2.velocityY * dampingFactor;
+
+            ball2.velocityX = tempVelocityX * dampingFactor;
+            ball2.velocityY = tempVelocityY * dampingFactor;
         }
     }
 
@@ -217,10 +218,12 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             // Move the ball out of the peg by the overlap distance
             ball.positionX += dx * overlap;
             ball.positionY += dy * overlap;
-            // Bounce by reversing Y velocity (or you can adjust both X and Y velocities)
-            ball.velocityY = -ball.velocityY;
+            // Damping factor to reduce bounce height
+            float dampingFactor = 0.1f;  // Adjust this value for less bounce
+            // Reduce the bounce intensity by applying the damping factor
+            ball.velocityY = -ball.velocityY * dampingFactor;
             // Optional: Modify X velocity for more realistic deflection
-            ball.velocityX += dx * 0.1f;
+            ball.velocityX += dx * 0.1f * dampingFactor;
         }
     }
 
