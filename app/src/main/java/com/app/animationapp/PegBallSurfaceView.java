@@ -23,7 +23,8 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     }
     // Define constants for gravity and bounce factors
     private static final float GRAVITY = 0.09f;
-    private static final float BOUNCE_FACTOR = 0.70f; //Adjust for less bouncy collisions
+    private static final float PEG_BOUNCE_FACTOR = 0.09f; //Adjust for less bouncy collisions
+    private static final float BALL_BOUNCE_FACTOR = 0.09f; //Adjust for less bouncy collisions
     private static final float FRICTION = 0.98f; //Apply friction to slow down horizontal motion
     private List<BallCollectible> balls;
     private List<PegParticle> pegs;
@@ -162,7 +163,7 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
 
                 // Check for wall collisions (left and right boundaries of the screen)
                 if (ball.positionX <= 0 || ball.positionX + ball.getRadius() * 2 >= screenX) {
-                    ball.velocityX = -ball.velocityX * BOUNCE_FACTOR;
+                    ball.velocityX = -ball.velocityX * PEG_BOUNCE_FACTOR;
                     ball.positionX = Math.max(0, Math.min(screenX - ball.getRadius() * 2, ball.positionX)); // Keep within bounds
                 }
                 // Check for collisions with the pegs
@@ -222,12 +223,11 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             float collisionVelocity = relativeVelocityX * dx + relativeVelocityY * dy;
             if (collisionVelocity < 0) {
                 // Apply bounce factor and resolve velocities
-                float bounceFactor = 0.8f;  // Lower bounce for ball-ball collision
                 float impulse = collisionVelocity;
-                ball1.velocityX -= impulse * dx * bounceFactor;
-                ball1.velocityY -= impulse * dy * bounceFactor;
-                ball2.velocityX += impulse * dx * bounceFactor;
-                ball2.velocityY += impulse * dy * bounceFactor;
+                ball1.velocityX -= impulse * dx * BALL_BOUNCE_FACTOR;
+                ball1.velocityY -= impulse * dy * BALL_BOUNCE_FACTOR;
+                ball2.velocityX += impulse * dx * BALL_BOUNCE_FACTOR;
+                ball2.velocityY += impulse * dy * BALL_BOUNCE_FACTOR;
                 // Apply friction to reduce tangential velocity
                 float frictionFactor = 0.98f;  // Adjust for desired friction
                 float tangentialVelocityX = relativeVelocityX - collisionVelocity * dx;
@@ -252,9 +252,9 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             ball.positionX += dx * overlap;
             ball.positionY += dy * overlap;
             // Bounce by reversing the Y velocity and adding a random component for variation
-            ball.velocityY = -ball.velocityY * BOUNCE_FACTOR;
+            ball.velocityY = -ball.velocityY * PEG_BOUNCE_FACTOR;
             // Apply a slight random variation to the X velocity
-            ball.velocityX += (Math.random() - 0.5) * 2 * BOUNCE_FACTOR;
+            ball.velocityX += (Math.random() - 0.5) * 2 * PEG_BOUNCE_FACTOR;
         }
     }
 
