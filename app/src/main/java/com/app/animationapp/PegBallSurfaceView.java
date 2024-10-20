@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder.Callback {
@@ -73,11 +74,14 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         //TODO: On going
         balls = new ArrayList<BallCollectible>();
         final float centerX = screenX / 2f;
-        final BallCollectible ball = new BallCollectible(getResources(), screenRatioX, screenRatioY)
-                .setSpawnX(centerX)
-                .setSpawnY(0)
-                .build();
-        balls.add(ball);
+        final ArrayList<Integer> ballSpawns = new ArrayList<Integer>(Arrays.asList(0, 3, 10, 13));
+        for (Integer ballSpawn: ballSpawns) {
+            final BallCollectible ball = new BallCollectible(getResources(), screenRatioX, screenRatioY)
+                    .setSpawnX(centerX)
+                    .setSpawnY(ballSpawn)
+                    .build();
+            balls.add(ball);
+        }
     }
 
     private void initializePegs(int row) {
@@ -86,6 +90,15 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         coordinates.add(new PointF(screenX / 2f, screenY / 2f));
         coordinates.add(new PointF(screenX * 0.25f, screenY / 2f));
         coordinates.add(new PointF(screenX * 0.75f, screenY / 2f));
+        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.20f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.40f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.60f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.80f, screenY * 0.75f));
+        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.75f));
         pegs = new ArrayList<PegParticle>();
         for (PointF coordinate : coordinates) {
             final PegParticle peg = new PegParticle(getResources(), screenRatioX, screenRatioY)
@@ -106,19 +119,26 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         Log.d(TAG,"update");
         final List<BallCollectible> drops = new ArrayList<>();
         if (!balls.isEmpty()) {
-            for (BallCollectible ball : balls) {
+            for (int i = 0; i < balls.size(); i++) {
+                BallCollectible ball = balls.get(i);
                 if (ball.positionY > screenY && !ball.isCollected) {
                     ball.isCollected = true;
                     drops.add(ball);
                 }
                 if (ball.isSpawnDelayFinished()) {
                     // Apply gravity to the ball
-                    ball.updatePosition(1f * screenRatioY); // Gravity factor
+                    ball.updatePosition(0.5f * screenRatioY); // Gravity factor
                     // Check for collisions with pegs
                     for (PegParticle peg : pegs) {
                         if (isColliding(ball, peg)) {
-                            // Resolve collision to prevent overlap
                             resolveCollision(ball, peg);
+                        }
+                    }
+                    // Check for collisions with other balls
+                    for (int j = i + 1; j < balls.size(); j++) {
+                        BallCollectible otherBall = balls.get(j);
+                        if (isColliding(ball, otherBall)) {
+                            resolveCollision(ball, otherBall);
                         }
                     }
                 } else {
@@ -134,11 +154,52 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         }
     }
 
+    private boolean isColliding(BallCollectible ball1, BallCollectible ball2) {
+        float dx = ball1.positionX + ball1.getRadius() - (ball2.positionX + ball2.getRadius());
+        float dy = ball1.positionY + ball1.getRadius() - (ball2.positionY + ball2.getRadius());
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        return distance < (ball1.getRadius() + ball2.getRadius());
+    }
+
     private boolean isColliding(BallCollectible ball, PegParticle peg) {
         float dx = ball.positionX + ball.getRadius() - (peg.positionX + peg.getRadius());
         float dy = ball.positionY + ball.getRadius() - (peg.positionY + peg.getRadius());
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
         return distance < (ball.getRadius() + peg.getRadius());
+    }
+
+    private void resolveCollision(BallCollectible ball1, BallCollectible ball2) {
+        // Get the difference in positions
+        float dx = ball1.positionX + ball1.getRadius() - (ball2.positionX + ball2.getRadius());
+        float dy = ball1.positionY + ball1.getRadius() - (ball2.positionY + ball2.getRadius());
+
+        // Calculate the distance between the centers
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+        // Calculate overlap
+        float overlap = (ball1.getRadius() + ball2.getRadius()) - distance;
+
+        if (overlap > 0) {
+            // Normalize the direction vector (dx, dy)
+            dx /= distance;
+            dy /= distance;
+
+            // Move the balls out of each other by half of the overlap distance
+            ball1.positionX += dx * overlap / 2;
+            ball1.positionY += dy * overlap / 2;
+            ball2.positionX -= dx * overlap / 2;
+            ball2.positionY -= dy * overlap / 2;
+
+            // Exchange velocities for a basic bounce effect
+            float tempVelocityX = ball1.velocityX;
+            float tempVelocityY = ball1.velocityY;
+
+            ball1.velocityX = ball2.velocityX;
+            ball1.velocityY = ball2.velocityY;
+
+            ball2.velocityX = tempVelocityX;
+            ball2.velocityY = tempVelocityY;
+        }
     }
 
     private void resolveCollision(BallCollectible ball, PegParticle peg) {
