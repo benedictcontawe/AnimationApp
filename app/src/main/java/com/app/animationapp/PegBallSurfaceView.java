@@ -22,10 +22,10 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         return new PegBallSurfaceView(context, screenX, screenY);
     }
     // Define constants for gravity and bounce factors
-    private static final float GRAVITY = 0.09f;
-    private static final float PEG_BOUNCE_FACTOR = 0.09f; //Adjust for less bouncy collisions
-    private static final float BALL_BOUNCE_FACTOR = 0.09f; //Adjust for less bouncy collisions
-    private static final float FRICTION = 0.98f; //Apply friction to slow down horizontal motion
+    private static final float GRAVITY = 5.00f; // Increased gravity for faster falling
+    private static final float PEG_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for pegs
+    private static final float BALL_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for ball-to-ball collisions
+    private static final float FRICTION = 0.9f; // Increased friction to slow down horizontal movement
     private List<BallCollectible> balls;
     private List<PegParticle> pegs;
 
@@ -157,10 +157,11 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             if (ball.isSpawnDelayFinished()) {
                 // Apply gravity to the ball's velocity
                 ball.velocityY += GRAVITY;
+                // Apply friction to the ball's horizontal velocity
+                ball.velocityX *= FRICTION;
                 // Move the ball based on its current velocity
                 ball.positionX += ball.velocityX;
                 ball.positionY += ball.velocityY;
-
                 // Check for wall collisions (left and right boundaries of the screen)
                 if (ball.positionX <= 0 || ball.positionX + ball.getRadius() * 2 >= screenX) {
                     ball.velocityX = -ball.velocityX * PEG_BOUNCE_FACTOR;
@@ -205,37 +206,43 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     }
 
     private void resolveCollision(BallCollectible ball1, BallCollectible ball2) {
+        // Find the axis of collision (difference in position)
         float dx = ball2.positionX + ball2.getRadius() - (ball1.positionX + ball1.getRadius());
         float dy = ball2.positionY + ball2.getRadius() - (ball1.positionY + ball1.getRadius());
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        float overlap = (ball1.getRadius() + ball2.getRadius()) - distance;
-        if (overlap > 0) {
+        // Only proceed if the balls are overlapping (i.e., collided)
+        if (distance < ball1.getRadius() + ball2.getRadius()) {
+            // Normalize the distance to get the direction of the collision
             dx /= distance;
             dy /= distance;
-            // Adjust positions of both balls to resolve overlap
+            // Calculate the overlap amount (how much they are intersecting)
+            float overlap = (ball1.getRadius() + ball2.getRadius()) - distance;
+            // Separate the balls so they no longer overlap
             ball1.positionX -= dx * overlap / 2;
             ball1.positionY -= dy * overlap / 2;
             ball2.positionX += dx * overlap / 2;
             ball2.positionY += dy * overlap / 2;
-            // Calculate relative velocity
+            // Calculate relative velocity along the collision axis
             float relativeVelocityX = ball2.velocityX - ball1.velocityX;
             float relativeVelocityY = ball2.velocityY - ball1.velocityY;
             float collisionVelocity = relativeVelocityX * dx + relativeVelocityY * dy;
+            // Only resolve the collision if the balls are moving toward each other
             if (collisionVelocity < 0) {
-                // Apply bounce factor and resolve velocities
-                float impulse = collisionVelocity;
+                // Calculate the impulse to be applied (energy transfer)
+                float impulse = -collisionVelocity;
+                // Apply impulse to both balls, adjusting for their masses (assuming equal mass here)
                 ball1.velocityX -= impulse * dx * BALL_BOUNCE_FACTOR;
                 ball1.velocityY -= impulse * dy * BALL_BOUNCE_FACTOR;
                 ball2.velocityX += impulse * dx * BALL_BOUNCE_FACTOR;
                 ball2.velocityY += impulse * dy * BALL_BOUNCE_FACTOR;
-                // Apply friction to reduce tangential velocity
-                float frictionFactor = 0.98f;  // Adjust for desired friction
+                // Apply friction to tangential velocity (velocity not along the collision axis)
                 float tangentialVelocityX = relativeVelocityX - collisionVelocity * dx;
                 float tangentialVelocityY = relativeVelocityY - collisionVelocity * dy;
-                ball1.velocityX += tangentialVelocityX * frictionFactor;
-                ball1.velocityY += tangentialVelocityY * frictionFactor;
-                ball2.velocityX -= tangentialVelocityX * frictionFactor;
-                ball2.velocityY -= tangentialVelocityY * frictionFactor;
+                // Reduce tangential velocities (energy loss due to friction)
+                ball1.velocityX += tangentialVelocityX * FRICTION;
+                ball1.velocityY += tangentialVelocityY * FRICTION;
+                ball2.velocityX -= tangentialVelocityX * FRICTION;
+                ball2.velocityY -= tangentialVelocityY * FRICTION;
             }
         }
     }
@@ -251,9 +258,9 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             // Adjust ball's position to resolve overlap
             ball.positionX += dx * overlap;
             ball.positionY += dy * overlap;
-            // Bounce by reversing the Y velocity and adding a random component for variation
+            // Reduce vertical bounce
             ball.velocityY = -ball.velocityY * PEG_BOUNCE_FACTOR;
-            // Apply a slight random variation to the X velocity
+            // Reduce horizontal bounce with random variation
             ball.velocityX += (Math.random() - 0.5) * 2 * PEG_BOUNCE_FACTOR;
         }
     }
