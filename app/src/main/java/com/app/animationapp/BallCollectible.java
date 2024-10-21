@@ -59,6 +59,20 @@ public class BallCollectible extends CollectibleGameObject {
         return Math.min(width, height) / 2;
     }
 
+    public boolean isColliding(BallCollectible ball) {
+        float dx = positionX + getRadius() - (ball.positionX + ball.getRadius());
+        float dy = positionY + getRadius() - (ball.positionY + ball.getRadius());
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        return distance < (getRadius() + ball.getRadius());
+    }
+
+    public boolean isColliding(PegParticle peg) {
+        float dx = positionX + getRadius() - (peg.positionX + peg.getRadius());
+        float dy = positionY + getRadius() - (peg.positionY + peg.getRadius());
+        float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        return distance < (getRadius() + peg.getRadius());
+    }
+
     public BallCollectible build() {
         return this;
     }

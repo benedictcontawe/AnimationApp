@@ -22,10 +22,10 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         return new PegBallSurfaceView(context, screenX, screenY);
     }
     // Define constants for gravity and bounce factors
-    private static final float GRAVITY = 3.00f; // Increased gravity for faster falling
-    private static final float PEG_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for pegs
-    private static final float BALL_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for ball-to-ball collisions
-    private static final float FRICTION = 0.9f; // Increased friction to slow down horizontal movement
+    private static final float GRAVITY = 8.00f; // Increased gravity for faster falling
+    private static final float PEG_BOUNCE_FACTOR = 0.09f; // Reduced bounce factor for pegs
+    private static final float BALL_BOUNCE_FACTOR = 0.2f; // Reduced bounce factor for ball-to-ball collisions
+    private static final float FRICTION = 0.06f; // Increased friction to slow down horizontal movement
     private List<BallCollectible> balls;
     private List<PegParticle> pegs;
 
@@ -215,27 +215,29 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         final List<BallCollectible> ballsToRemove = new ArrayList<>();
         for (BallCollectible ball : balls) {
             if (ball.isSpawnDelayFinished()) {
-                // Apply gravity to the ball's velocity
+                // Apply gravity to the ball's vertical velocity
                 ball.velocityY += GRAVITY;
-                // Apply friction to the ball's horizontal velocity
+                // Apply horizontal friction to slow down X movement over time
                 ball.velocityX *= FRICTION;
-                // Move the ball based on its current velocity
+                // Update the ball's position based on its velocity
                 ball.positionX += ball.velocityX;
                 ball.positionY += ball.velocityY;
                 // Check for wall collisions (left and right boundaries of the screen)
                 if (ball.positionX <= 0 || ball.positionX + ball.getRadius() * 2 >= screenX) {
+                    // Invert X velocity and apply bounce factor if it hits the screen's left/right
                     ball.velocityX = -ball.velocityX * PEG_BOUNCE_FACTOR;
-                    ball.positionX = Math.max(0, Math.min(screenX - ball.getRadius() * 2, ball.positionX)); // Keep within bounds
+                    // Keep the ball within bounds
+                    ball.positionX = Math.max(0, Math.min(screenX - ball.getRadius() * 2, ball.positionX));
                 }
-                // Check for collisions with the pegs
+                // Check for collisions with pegs
                 for (PegParticle peg : pegs) {
-                    if (isColliding(ball, peg)) {
+                    if (ball.isColliding(peg)) {
                         resolveCollision(ball, peg);
                     }
                 }
                 // Check for ball-to-ball collisions
                 for (BallCollectible otherBall : balls) {
-                    if (ball != otherBall && isColliding(ball, otherBall)) {
+                    if (ball != otherBall && ball.isColliding(otherBall)) {
                         resolveCollision(ball, otherBall);
                     }
                 }
@@ -244,25 +246,11 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
                     ballsToRemove.add(ball);
                 }
             } else {
-                ball.updateSpawnDelay(1);
+                ball.updateSpawnDelay(1);  // Wait for spawn delay before activating ball
             }
         }
         // Remove balls that fall off the screen
         balls.removeAll(ballsToRemove);
-    }
-
-    private boolean isColliding(BallCollectible ball1, BallCollectible ball2) {
-        float dx = ball1.positionX + ball1.getRadius() - (ball2.positionX + ball2.getRadius());
-        float dy = ball1.positionY + ball1.getRadius() - (ball2.positionY + ball2.getRadius());
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        return distance < (ball1.getRadius() + ball2.getRadius());
-    }
-
-    private boolean isColliding(BallCollectible ball, PegParticle peg) {
-        float dx = ball.positionX + ball.getRadius() - (peg.positionX + peg.getRadius());
-        float dy = ball.positionY + ball.getRadius() - (peg.positionY + peg.getRadius());
-        float distance = (float) Math.sqrt(dx * dx + dy * dy);
-        return distance < (ball.getRadius() + peg.getRadius());
     }
 
     private void resolveCollision(BallCollectible ball1, BallCollectible ball2) {
@@ -321,18 +309,16 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
             // Adjust ball's position to resolve overlap, but smoothly
             ball.positionX += dx * overlap * 0.5;  // Adjust position smoothly to avoid teleporting
             ball.positionY += dy * overlap * 0.5;
-            // Check if the collision is more horizontal or vertical
+            // Reduce horizontal effect and friction (allow free movement in X)
             if (Math.abs(dx) > Math.abs(dy)) {
                 // Horizontal collision (left or right of the peg)
-                // Reduce or disable bounce on the X-axis, smooth motion
-                ball.velocityX *= 0.5;  // Reduce velocity on X-axis (smooth out motion)
+                ball.velocityX *= 0.95;  // Slightly reduce X velocity, not too much
             } else {
                 // Vertical collision (top or bottom of the peg)
-                // Bounce vertically, but smoothly
-                ball.velocityY = -ball.velocityY * PEG_BOUNCE_FACTOR;
+                ball.velocityY = -ball.velocityY * 0.6f; // Reduced bounce factor for smoother deflection
             }
-            // Add slight random variation to X velocity for dynamic movement
-            ball.velocityX += (Math.random() - 0.5) * PEG_BOUNCE_FACTOR * 0.5;
+            // Add slight random variation to X velocity for dynamic movement (but smaller than before)
+            ball.velocityX += (Math.random() - 0.5) * 0.1; // Randomness should be smaller to avoid large jumps
         }
     }
 
