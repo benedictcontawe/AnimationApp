@@ -22,7 +22,7 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
         return new PegBallSurfaceView(context, screenX, screenY);
     }
     // Define constants for gravity and bounce factors
-    private static final float GRAVITY = 5.00f; // Increased gravity for faster falling
+    private static final float GRAVITY = 3.00f; // Increased gravity for faster falling
     private static final float PEG_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for pegs
     private static final float BALL_BOUNCE_FACTOR = 0.4f; // Reduced bounce factor for ball-to-ball collisions
     private static final float FRICTION = 0.9f; // Increased friction to slow down horizontal movement
@@ -93,48 +93,108 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     private void initializePegs(int row) {
         //TODO: On going
         final List<PointF> coordinates = new ArrayList<PointF>();
-        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.20f));
-        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.20f));
-        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.05f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.15f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.35f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.45f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.55f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.65f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.85f, screenY * 0.10f));
+        coordinates.add(new PointF(screenX * 0.95f, screenY * 0.10f));
 
-        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.30f));
-        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.30f));
-        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.30f));
-        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.30f));
-        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.00f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.20f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.40f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.60f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.80f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.20f));
+        coordinates.add(new PointF(screenX * 1.00f, screenY * 0.20f));
+
+        coordinates.add(new PointF(screenX * 0.05f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.15f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.35f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.45f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.55f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.65f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.85f, screenY * 0.30f));
+        coordinates.add(new PointF(screenX * 0.95f, screenY * 0.30f));
 
         coordinates.add(new PointF(screenX * 0.00f, screenY * 0.40f));
+        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.40f));
         coordinates.add(new PointF(screenX * 0.20f, screenY * 0.40f));
+        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.40f));
         coordinates.add(new PointF(screenX * 0.40f, screenY * 0.40f));
+        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.40f));
         coordinates.add(new PointF(screenX * 0.60f, screenY * 0.40f));
+        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.40f));
         coordinates.add(new PointF(screenX * 0.80f, screenY * 0.40f));
+        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.40f));
         coordinates.add(new PointF(screenX * 1.00f, screenY * 0.40f));
 
-        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.50f));
-        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.50f));
-        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.50f));
-        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.50f));
-        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.05f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.15f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.35f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.45f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.55f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.65f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.85f, screenY * 0.50f));
+        coordinates.add(new PointF(screenX * 0.95f, screenY * 0.50f));
 
         coordinates.add(new PointF(screenX * 0.00f, screenY * 0.60f));
+        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.60f));
         coordinates.add(new PointF(screenX * 0.20f, screenY * 0.60f));
+        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.60f));
         coordinates.add(new PointF(screenX * 0.40f, screenY * 0.60f));
+        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.60f));
         coordinates.add(new PointF(screenX * 0.60f, screenY * 0.60f));
+        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.60f));
         coordinates.add(new PointF(screenX * 0.80f, screenY * 0.60f));
+        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.60f));
         coordinates.add(new PointF(screenX * 1.00f, screenY * 0.60f));
 
-        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.70f));
-        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.70f));
-        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.70f));
-        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.70f));
-        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.05f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.15f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.35f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.45f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.55f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.65f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.85f, screenY * 0.70f));
+        coordinates.add(new PointF(screenX * 0.95f, screenY * 0.70f));
 
         coordinates.add(new PointF(screenX * 0.00f, screenY * 0.80f));
+        coordinates.add(new PointF(screenX * 0.10f, screenY * 0.80f));
         coordinates.add(new PointF(screenX * 0.20f, screenY * 0.80f));
+        coordinates.add(new PointF(screenX * 0.30f, screenY * 0.80f));
         coordinates.add(new PointF(screenX * 0.40f, screenY * 0.80f));
+        coordinates.add(new PointF(screenX * 0.50f, screenY * 0.80f));
         coordinates.add(new PointF(screenX * 0.60f, screenY * 0.80f));
+        coordinates.add(new PointF(screenX * 0.70f, screenY * 0.80f));
         coordinates.add(new PointF(screenX * 0.80f, screenY * 0.80f));
+        coordinates.add(new PointF(screenX * 0.90f, screenY * 0.80f));
         coordinates.add(new PointF(screenX * 1.00f, screenY * 0.80f));
+
+        coordinates.add(new PointF(screenX * 0.05f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.15f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.25f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.35f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.45f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.55f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.65f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.75f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.85f, screenY * 0.90f));
+        coordinates.add(new PointF(screenX * 0.95f, screenY * 0.90f));
         pegs = new ArrayList<PegParticle>();
         for (PointF coordinate : coordinates) {
             final PegParticle peg = new PegParticle(getResources(), screenRatioX, screenRatioY)
@@ -248,20 +308,31 @@ public class PegBallSurfaceView extends BaseSurfaceView implements SurfaceHolder
     }
 
     private void resolveCollision(BallCollectible ball, PegParticle peg) {
+        // Calculate the difference in positions between the ball and the peg
         float dx = ball.positionX + ball.getRadius() - (peg.positionX + peg.getRadius());
         float dy = ball.positionY + ball.getRadius() - (peg.positionY + peg.getRadius());
         float distance = (float) Math.sqrt(dx * dx + dy * dy);
+        // Calculate overlap amount
         float overlap = (ball.getRadius() + peg.getRadius()) - distance;
         if (overlap > 0) {
+            // Normalize the distance vector
             dx /= distance;
             dy /= distance;
-            // Adjust ball's position to resolve overlap
-            ball.positionX += dx * overlap;
-            ball.positionY += dy * overlap;
-            // Reduce vertical bounce
-            ball.velocityY = -ball.velocityY * PEG_BOUNCE_FACTOR;
-            // Reduce horizontal bounce with random variation
-            ball.velocityX += (Math.random() - 0.5) * 2 * PEG_BOUNCE_FACTOR;
+            // Adjust ball's position to resolve overlap, but smoothly
+            ball.positionX += dx * overlap * 0.5;  // Adjust position smoothly to avoid teleporting
+            ball.positionY += dy * overlap * 0.5;
+            // Check if the collision is more horizontal or vertical
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // Horizontal collision (left or right of the peg)
+                // Reduce or disable bounce on the X-axis, smooth motion
+                ball.velocityX *= 0.5;  // Reduce velocity on X-axis (smooth out motion)
+            } else {
+                // Vertical collision (top or bottom of the peg)
+                // Bounce vertically, but smoothly
+                ball.velocityY = -ball.velocityY * PEG_BOUNCE_FACTOR;
+            }
+            // Add slight random variation to X velocity for dynamic movement
+            ball.velocityX += (Math.random() - 0.5) * PEG_BOUNCE_FACTOR * 0.5;
         }
     }
 
